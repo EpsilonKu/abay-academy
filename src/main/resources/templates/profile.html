@@ -1,0 +1,73 @@
+<html lang="en" xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/mainStruct">
+<div class="col-12" layout:fragment="content_view">
+    <div class="row mt-4">
+        <img th:src="@{'viewphoto/' + ${currentUser.avatar}}" class="img-fluid col-12" alt="Responsive image">
+    </div>
+    <div class="row">
+        <div class="col-6 offset-3">
+            <form th:action="@{'/uploadava'}"   method="post" enctype="multipart/form-data">
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="customFile" name="avatar">
+                    <label class="custom-file-label" for="customFile">Choose file</label>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-success">ADD</button>
+                </div>
+            </form>
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-title">Basic Table</h6>
+                    <p class="card-description">Add class <code>.table</code></p>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>First Name</th>
+                                <th>LAST NAME</th>
+                                <th>USERNAME</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th>1</th>
+                                <td>Mark</td>
+                                <td>Otto</td>
+                                <td>@mdo</td>
+                            </tr>
+                            <tr>
+                                <th>2</th>
+                                <td>Jacob</td>
+                                <td>Thornton</td>
+                                <td>@fat</td>
+                            </tr>
+                            <tr>
+                                <th>3</th>
+                                <td>Larry</td>
+                                <td>the Bird</td>
+                                <td>@twitter</td>
+                            </tr>
+                            <tr>
+                                <th>4</th>
+                                <td>Larry</td>
+                                <td>Jellybean</td>
+                                <td>@lajelly</td>
+                            </tr>
+                            <tr>
+                                <th>5</th>
+                                <td>Larry</td>
+                                <td>Kikat</td>
+                                <td>@lakitkat</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h1>Bruh</h1>
+</div>
+</html>
