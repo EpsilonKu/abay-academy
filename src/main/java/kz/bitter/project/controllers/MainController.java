@@ -49,12 +49,6 @@ public class MainController {
         return "index";
     }
 
-    @GetMapping (value = "/user-panel")
-    public String userPanel (Model model){
-        model.addAttribute("allUsers",userService.getAllUsers());
-        return "admin/user-panel";
-    }
-
     @GetMapping (value = "/profile")
     @PreAuthorize("isAuthenticated()")
     public String profile (Model model){

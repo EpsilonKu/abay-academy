@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table (name = "t_courses")
@@ -18,4 +19,7 @@ public class Courses extends BaseEntity{
 
     @Column (name = "description")
     private String description;
+
+    @OneToMany (fetch = FetchType.EAGER)
+    private List <Chapters> chaptersList;
 }

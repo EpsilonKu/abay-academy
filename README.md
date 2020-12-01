@@ -1,2 +1,3 @@
 # abayacademy
- Learning Project
+ Learning platform.
+ Based on Java + Spring + Thymeleaf
