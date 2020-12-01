@@ -42,7 +42,11 @@ public class AdminController {
             @RequestParam (name = "course_name") String name,
             @RequestParam (name = "course_description") String description){
         Courses courses = new Courses();
-        //courses.setId();
+        try {
+            courses.setId(Long.parseLong(id));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         courses.setName(name);
         courses.setDescription(description);
 

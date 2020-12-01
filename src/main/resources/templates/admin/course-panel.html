@@ -2,13 +2,20 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="layout/mainStruct">
 <div class="col-12 stretch-card grid-margin" layout:fragment="content_view">
-    <div class="card">
-        <div class="card-body col-12">
-            <div class="card-title">
-                <a class="btn btn-info btn-sm" data-toggle="modal" data-target="#add-course">
-                    Add Course
-                </a>
-                <div class="modal fade" tabindex="-1" role="dialog" id="add-course">
+
+
+    <div class="flex-md-wrap p-3">
+        <div class="row w-100">
+            <a class="btn btn-info btn-sm" data-toggle="modal" data-target="#add-course">
+                Add Course
+            </a>
+            <div class="modal fade" tabindex="-1" role="dialog" id="add-course">
+                <div class="modal-dialog">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
                     <div class="modal-content px-4 py-5">
                         <h5 class="text-muted font-weight-normal mb-4">Add new Course</h5>
                         <form th:action="@{/saveCourse}" method="post">
@@ -28,14 +35,45 @@
                     </div>
                 </div>
             </div>
-            <p class="card-description">Add class <code>.table</code></p>
-            <div class="flex-lg-wrap" th:each=" i : ${allCourses}">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 th:text="${i.name}"></h3>
+        </div>
+        <div class="p-2" th:each=" i : ${allCourses}">
+            <div class="card my-2">
+
+                <div class="card-header form-inline">
+                    <h3 th:text="${i.name}"></h3>
+                    <a class="btn btn-info ml-auto" data-toggle="modal" data-target="#course-details"
+                       th:attr="data-target='#course-details'+${i.id}">
+                        Edit Course
+                    </a>
+
+                </div>
+                <div class="card-body">
+                    <p th:text="${i.description}"></p>
+                </div>
+            </div>
+            <div class="modal fade" tabindex="-1" role="dialog" th:id="course-details+${i.id}">
+                <div class="modal-dialog">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                    <div class="card-body">
-                        <p th:text="${i.description}"></p>
+                    <div class="modal-content px-4 py-5">
+                        <h5 class="text-muted font-weight-normal mb-4">Add new Course</h5>
+                        <form th:action="@{/saveCourse}" method="post">
+                            <input type="hidden" name="course_id" th:value="${null}">
+                            <div class="form-group">
+                                <label>Course Name</label>
+                                <input type="text" class="form-control" name="course_name">
+                            </div>
+                            <div class="form-group">
+                                <label>Course Description</label>
+                                <input type="text" class="form-control" name="course_description">
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary">Create course</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
