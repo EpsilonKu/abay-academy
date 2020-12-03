@@ -6,9 +6,7 @@
     <title>Title</title>
     <!-- choose one -->
     <script src="https://unpkg.com/feather-icons"></script>
-<!--    <script th:src="@{/js/feather.min.js}"></script>-->
     <link rel="stylesheet" type="text/css" th:href="@{/css/nobleUI/style.css}">
-<!--    <link rel="stylesheet" type="text/css" th:href="@{/css/feather-font.css}">-->
     <link rel="stylesheet" type="text/css" th:href="@{/css/overpass-font.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
     <script th:src="@{/js/jquery.js}"></script>
@@ -16,9 +14,9 @@
 </head>
 <body>
 <div class="main-wrapper">
-    <nav class="sidebar" th:insert="~{layout/sideBar}">
+    <div th:insert="~{layout/sideBar}">
 
-    </nav>
+    </div>
     <div class="page-wrapper">
         <div th:insert="~{layout/navBar}"></div>
         <div class="page-content">
