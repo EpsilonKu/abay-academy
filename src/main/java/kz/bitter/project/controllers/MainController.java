@@ -74,7 +74,7 @@ public class MainController {
             session.setAttribute("firstName",firstName);
             session.setAttribute("lastName",lastName);
             session.setAttribute("gender",gender);
-            return "/signUp";
+            return "signUp";
         }
         return "redirect:/";
     }
