@@ -79,7 +79,7 @@ public class MainController {
         return "redirect:/";
     }
 
-    @PostMapping (value = "signUp")
+    @PostMapping (value = "/signUp")
     public String toSignUp (HttpSession session,
                             @RequestParam (name = "user_email") String email,
                             @RequestParam (name = "user_nickname") String nickname,
