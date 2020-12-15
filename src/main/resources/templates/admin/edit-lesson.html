@@ -1,0 +1,20 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/mainStruct">
+<link rel="stylesheet" type="text/css" th:href="@{/css/simplemde/simplemde.min.css}">
+<div class="col-12 stretch-card grid-margin" layout:fragment="content_view">
+    <div class="card">
+        <div class="card-body col-12">
+           <textarea class="form-control" name="tinymce" id="example" rows="10"></textarea>
+        </div>
+    </div>
+    <script th:src="@{/js/simplemde/simplemde.min.js}"></script>
+    <script>
+        var simplemde = new SimpleMDE({ element: document.getElementById("example") });
+        /*
+        Todo: make normal editor
+         */
+    </script>
+</div>
+
+</html>

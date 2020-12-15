@@ -1,5 +1,6 @@
 package kz.bitter.project.repositories;
 
+import kz.bitter.project.entities.Chapters;
 import kz.bitter.project.entities.Courses;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -9,6 +10,7 @@ import java.util.List;
 
 @Repository
 @Transactional
-public interface CourseRepository extends JpaRepository <Courses, Long> {
-    List<Courses> findAll ();
+public interface ChapterRepository extends JpaRepository <Chapters,Long> {
+    List <Chapters> findByCourse (Courses course);
+    void deleteAllByCourseId (Long id);
 }

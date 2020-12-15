@@ -1,0 +1,64 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/mainStruct">
+<div class="col-12 stretch-card grid-margin" layout:fragment="content_view">
+    <div class="card">
+        <div class="card-body col-12">
+
+            <a class="btn btn-light" data-toggle="modal" data-target="#add-lesson">Add Lesson</a>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Order</th>
+                        <th>Details</th>
+                        <th>Remove</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="i : ${lessonList}">
+                        <td th:text="${i.id}"></td>
+                        <td th:text="${i.name}"></td>
+                        <td th:text="${i.orderPlace}"></td>
+                        <td>
+                            <a class="btn btn-primary" th:href="@{'/edit-lesson/' + ${i.id}}">Details</a>
+                        </td>
+                        <td>
+                            <button class="btn btn-danger btn-icon" data-toggle="modal" data-target="#lesson-remove"
+                               th:attr="data-target='#lesson-remove'+${i.id}">
+                                <i data-feather="trash-2"></i>
+                            </button>
+                            <div class="modal fade" tabindex="-1" role="dialog" th:id="lesson-remove+${i.id}">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Are you sure to remove course?</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form th:action="@{/remove-lesson}" method="post">
+                                                    <input type="hidden" name="lesson_id" th:value="${i.id}">
+                                                    <input type="hidden" name="chapter_id" th:value="${i.chapter.id}">
+                                                    <button class="btn btn-danger">Delete</button>
+                                            </form>
+                                            <button type="button" class="btn btn-behance" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                No
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

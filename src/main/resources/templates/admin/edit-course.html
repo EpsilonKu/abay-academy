@@ -1,0 +1,128 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/mainStruct">
+<div class="col-12 stretch-card grid-margin" layout:fragment="content_view">
+    <div class="card">
+        <div class="card-body col-12">
+            <a class="btn btn-light" data-toggle="modal" data-target="#add-chapter">Add Chapter</a>
+            <div class="modal fade" tabindex="-1" role="dialog" id="add-chapter">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Add new chapter</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form th:action="@{/save-chapter}" method="post">
+                                <input type="hidden" name="chapter_id" th:value="${-1}">
+                                <input type="hidden" name="course_id" th:value="${course.id}">
+                                <div class="form-group">
+                                    <label>Chapter Name</label>
+                                    <input type="text" class="form-control" name="course_name">
+                                </div>
+                                <div class="form-group">
+                                    <label>Course Description</label>
+                                    <input type="text" class="form-control" name="course_description">
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-primary">Create chapter</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Order</th>
+                        <th>Details</th>
+                        <th>Edit</th>
+                        <th>Remove</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="i : ${chapterList}">
+                        <td th:text="${i.id}"></td>
+                        <td th:text="${i.name}"></td>
+                        <td th:text="${i.description}"></td>
+                        <td>
+                            <a class="btn btn-primary" th:href="@{'/edit-chapter/' + ${i.id}}">details</a>
+                        </td>
+
+                        <td>
+                            <a class="btn btn-info" data-toggle="modal" data-target="#modal-details"
+                               th:attr="data-target='#modal-details'+${i.id}">edit</a>
+                            <div class="modal fade" tabindex="-1" role="dialog" th:id="modal-details+${i.id}">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Add new chapter</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form th:action="@{/save-chapter}" method="post">
+                                                <input type="hidden" name="chapter_id" th:value="${i.id}">
+                                                <input type="hidden" name="course_id" th:value="${course.id}">
+                                                <div class="form-group">
+                                                    <label>Chapter Name</label>
+                                                    <input type="text" class="form-control" name="course_name" th:value="${i.name}">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Course Description</label>
+                                                    <input type="text" class="form-control" name="course_description" th:value="${i.description}">
+                                                </div>
+                                                <div class="form-group">
+                                                    <button class="btn btn-primary">Save chapter</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <button class="btn btn-danger btn-icon" data-toggle="modal" data-target="#chapter-remove"
+                                    th:attr="data-target='#chapter-remove'+${i.id}">
+                                <i data-feather="trash-2"></i>
+                            </button>
+                            <div class="modal fade" tabindex="-1" role="dialog" th:id="chapter-remove+${i.id}">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body px-4 py-5">
+                                        <h5 class="text-muted font-weight-normal mb-4">Are you sure to remove
+                                            course?</h5>
+                                        <form th:action="@{/remove-chapter}" method="post">
+                                            <div class="form-group">
+                                                <input type="hidden" name="chapter_id" th:value="${i.id}">
+                                                <input type="hidden" name="course_id" th:value="${i.course.id}">
+                                                <button class="btn btn-danger">Delete</button>
+                                            </div>
+                                        </form>
+                                        <button type="button" class="btn btn-behance" data-dismiss="modal"
+                                                aria-label="Close">
+                                            No
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

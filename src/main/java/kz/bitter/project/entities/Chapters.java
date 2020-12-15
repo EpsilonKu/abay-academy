@@ -19,12 +19,9 @@ public class Chapters extends BaseEntity{
     @Column (name = "description")
     private String description;
 
-    @Column (name = "course_id")
-    private Long id;
+    @Column (name = "order_place")
+    private Long orderPlace;
 
-    @OneToMany (fetch = FetchType.EAGER)
-    private List <Lessons> lessonsList;
-
-//    @Column (name = "order_place")
-//    private
+    @ManyToOne (fetch = FetchType.LAZY)
+    private Courses course;
 }

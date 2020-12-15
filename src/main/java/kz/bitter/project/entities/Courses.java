@@ -20,6 +20,4 @@ public class Courses extends BaseEntity{
     @Column (name = "description")
     private String description;
 
-    @OneToMany (fetch = FetchType.EAGER)
-    private List <Chapters> chaptersList;
 }

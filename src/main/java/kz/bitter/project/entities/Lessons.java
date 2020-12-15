@@ -25,9 +25,11 @@ public class Lessons extends BaseEntity {
     @Enumerated (EnumType.ORDINAL)
     private LessonTypes lessonType;
 
-    @Column (name = "chapter_id")
-    private Long chapter_id;
+    @Column (name = "order_place")
+    private Long orderPlace;
 
+    @ManyToOne (fetch = FetchType.LAZY )
+    private Chapters chapter;
 
 
 }
