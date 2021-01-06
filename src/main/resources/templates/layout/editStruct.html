@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/overpass-font.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/core.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/simplemde/simplemde.min.css}">
 </head>
 <body>
 <div class="page-wrapper">
@@ -16,13 +17,7 @@
     <div th:insert="~{layout/navBar}"></div>
     <div class="page-content">
         <div class="row mt-4">
-            <div class="col-4">
-            </div>
-            <div class="col-4">
-                <div layout:fragment="content_view">
-                </div>
-            </div>
-            <div class="col-4">
+            <div layout:fragment="content_view">
             </div>
         </div>
     </div>
@@ -34,5 +29,8 @@
 <script th:src="@{/js/nobleJS/feather.min.js}"></script>
 <script th:src="@{/js/nobleJS/template.js}"></script>
 <script th:src="@{/js/simplemde/simplemde.min.js}"></script>
+<script>
+    var simplemde = new SimpleMDE({element: document.getElementById("content")});
+</script>
 </body>
 </html>

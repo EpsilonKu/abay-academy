@@ -6,6 +6,9 @@ import kz.bitter.project.entities.Lessons;
 import kz.bitter.project.entities.Users;
 import kz.bitter.project.services.CourseService;
 import kz.bitter.project.services.UserService;
+import org.commonmark.node.Node;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -59,8 +62,11 @@ public class AdminController {
     }
 
     @GetMapping(value = "/edit-lesson/{id}")
-    public String editLesson (
-                               Model model){
+    public String editLesson (Model model,
+                              @PathVariable ("id") Long id){
+
+        Lessons lesson = courseService.getLessonbyId(id);
+        model.addAttribute("currentLesson",lesson);
         return "admin/edit-lesson";
     }
 
@@ -100,24 +106,14 @@ public class AdminController {
     }
 
     @PostMapping (value = "/save-lesson")
-    public String saveLesson (
-            @RequestParam (name = "course_id") Long id,
-            @RequestParam (name = "chapter_id") Long chapterId,
-            @RequestParam (name = "course_name") String name){
-        Lessons lesson = new Lessons();
-        if (id!= -1 ){
-            lesson.setId(id);
-        }
-        Chapters chapter = courseService.getChapterById(chapterId);
-        lesson.setChapter(chapter);
-        lesson.setContent("");
-        lesson.setName(name);
-
+    public String saveLesson (Lessons lesson,
+                              Model model,
+                              @RequestParam(name = "chapter_id") Long chapterId){
+        lesson.setHtmlContent(markdownToHTML(lesson.getContent()));
+        lesson.setChapter(courseService.getChapterById(chapterId));
         courseService.saveLesson(lesson);
-        return "redirect:/edit-chapter/" + chapterId;
+        return "redirect:/edit-chapter/" + lesson.getChapter().getId();
     }
-
-
 
     @PostMapping(value = "/saveAccount")
     public String saveUserAccount(@RequestParam(name = "user_id") String id,
@@ -154,7 +150,7 @@ public class AdminController {
         if(chapter != null) {
             courseService.removeChapter(id);
 
-            return "redirect:/course-edit/" + courseId;
+            return "redirect:/edit-course/" + courseId;
         }
         else {
             return "redirect:/";
@@ -183,6 +179,17 @@ public class AdminController {
             userService.removeUserById(id);
         }
         return "redirect:/user-panel";
+    }
+
+    private String markdownToHTML(String markdown) {
+        Parser parser = Parser.builder()
+                .build();
+
+        Node document = parser.parse(markdown);
+        HtmlRenderer renderer = HtmlRenderer.builder()
+                .build();
+
+        return renderer.render(document);
     }
 
     private Users getUserData() {
