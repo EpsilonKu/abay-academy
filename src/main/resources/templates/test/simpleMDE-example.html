@@ -1,0 +1,31 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/minStruct"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<div class="col-12" layout:fragment="content_view">
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col">
+                <form method="post" th:object="${post}" th:action="@{/mde-example}">
+
+                    <div class="form-group">
+                        <label for="title">Title:</label>
+                        <input type="text" id="title" placeholder="Title" autocomplete="off" class="form-control"
+                               th:field="*{name}"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="content">Content:</label>
+                        <textarea type="text" rows="4" id="content" placeholder="Content" class="form-control"
+                                  th:field="*{content}" autocomplete="off"></textarea>
+                    </div>
+
+                    <button class="btn btn-primary" type="submit">Submit form</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</html>

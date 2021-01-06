@@ -4,3 +4,6 @@
 .min-vw-70 {
     min-width: 70vw !important;
 }
+.big-text {
+    font-size: 250%;
+}

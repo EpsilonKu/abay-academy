@@ -82,6 +82,11 @@
 			<version>1.15</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.atlassian.commonmark</groupId>
+			<artifactId>commonmark</artifactId>
+			<version>0.13.1</version>
+		</dependency>
 
 	</dependencies>
 

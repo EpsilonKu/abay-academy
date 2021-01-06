@@ -1,0 +1,15 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/minStruct"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<div class="col-12" layout:fragment="content_view">
+    <div class="container">
+        <div class="col-sm-12 mt-5">
+            <h1 th:text="${post.name}">Title</h1>
+            <div th:utext="${post.htmlContent}">Content</div>
+
+            <a th:href="@{/}" class="btn btn-primary">Go back</a>
+        </div>
+    </div>
+</div>
+</html>

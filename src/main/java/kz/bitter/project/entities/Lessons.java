@@ -21,6 +21,9 @@ public class Lessons extends BaseEntity {
     @Column (name = "content", columnDefinition = "TEXT")
     private String content;
 
+    @Column (name = "html_content", columnDefinition = "TEXT")
+    private String htmlContent;
+
     @Column (name = "lesson_type")
     @Enumerated (EnumType.ORDINAL)
     private LessonTypes lessonType;

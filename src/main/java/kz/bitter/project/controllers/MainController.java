@@ -2,10 +2,10 @@ package kz.bitter.project.controllers;
 
 import kz.bitter.project.entities.Users;
 import kz.bitter.project.enums.Gender;
+import kz.bitter.project.services.CourseService;
 import kz.bitter.project.services.UserService;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
-import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
@@ -26,12 +26,14 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Date;
 
 @Controller
 public class MainController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CourseService courseService;
 
     @Value("${file.avatar.uploadPath}")
     private String uploadPath;
@@ -53,7 +55,15 @@ public class MainController {
     @PreAuthorize("isAuthenticated()")
     public String profile (Model model){
         model.addAttribute("currentUser", getUserData());
-        return "profile";
+        return "user/profile";
+    }
+
+    @GetMapping (value = "/course/{id}")
+    public String courseView (@PathVariable ("id") Long id,
+                              Model model){
+        model.addAttribute("currentUse",getUserData());
+        model.addAttribute( "currentCourse", courseService.getCourseById(id));
+        return "user/course-view";
     }
 
     @GetMapping (value = "/search")

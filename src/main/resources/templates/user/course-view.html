@@ -1,0 +1,112 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/profileStruct">
+<div layout:fragment="content_view">
+    <div class="row">
+        <div class="col-12 grid-margin">
+            <div class="profile-header">
+                <div class="cover">
+                    <div class="gray-shade"></div>
+                    <figure>
+                        <img src="https://via.placeholder.com/1148x272" class="img-fluid" alt="Place Holder">
+                    </figure>
+                    <div class="cover-body d-flex justify-content-between align-items-center">
+                        <div>
+                            <img class="shadow" src="https://via.placeholder.com/100x100" alt="pfp">
+                            <span class="font-weight-bold big-text m-2" th:text="${currentCourse.name}">  </span>
+                        </div>
+                        <div class="d-none d-md-block">
+                            <button class="btn btn-success btn-icon-text">
+                                <i data-feather="play" class="btn-icon-prepend"></i> Start Course
+                            </button>
+                        </div>
+                    </div>
+                </div>
+<!--                <div class="header-links">-->
+<!--                    <ul class="d-flex align-items-center mt-3 mt-md-0">-->
+<!--                        <li class="d-flex align-items-center active">-->
+<!--                            <i class="mr-1 icon-md" data-feather="grid"></i>-->
+<!--                            <a class="pt-1px d-none d-md-block" href="#">Learning Courses</a>-->
+<!--                        </li>-->
+<!--                        <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center">-->
+<!--                            <i class="mr-1 icon-md" data-feather="file"></i>-->
+<!--                            <a class="pt-1px d-none d-md-block" href="#">Certifies</a>-->
+<!--                        </li>-->
+<!--                    </ul>-->
+<!--                </div>-->
+            </div>
+        </div>
+    </div>
+    <div class="row profile-body">
+        <div class="d-none d-md-block col-md-4 col-xl-3 left-wrapper">
+            <div class="card rounded">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <h6 class="card-title mb-0">About</h6>
+                    </div>
+                    <p> Maybe His name, and Date</p>
+                    <div class="mt-3">
+                        <label class="tx-11 font-weight-bold mb-0 text-uppercase">Joined:</label>
+                        <p class="text-muted">Date</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 col-xl-6 main-wrapper">
+            <div class="row">
+                <div class="col-md-12 grid-margin">
+                    <div class="card rounded">
+                        <div class="card-header">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center">
+                                    <div class="ml-2">
+                                        <h3>About </h3>
+                                        <p class="tx-11 text-muted">13 000 followers</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-3 tx-14" th:text="${currentCourse.description}"></p>
+                        </div>
+                        <div class="card-footer">
+                            <a class="btn btn-primary card-link">Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-none d-xl-block col-xl-3 right-wrapper">
+            <div class="row">
+                <div class="col-md-12 grid-margin">
+                    <div class="card rounded">
+                        <div class="card-body">
+                            <h6 class="card-title">Instructors</h6>
+                            <div class="list-group">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <img class="img-fluid" src="https://via.placeholder.com/67x67" alt="">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <p>Kurenshe Nurdaulet</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>
+
+<!--<form th:action="@{'/uploadava'}"   method="post" enctype="multipart/form-data">&ndash;&gt;-->
+<!--    <div class="custom-file">-->
+<!--        <input type="file" class="custom-file-input" id="customFile" name="avatar">-->
+<!--        <label class="custom-file-label" for="customFile">Choose file</label>-->
+<!--    </div>-->
+<!--    <div class="form-group">-->
+<!--        <button class="btn btn-success">ADD</button>-->
+<!--    </div>-->
+<!--</form>-->

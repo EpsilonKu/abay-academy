@@ -4,39 +4,34 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <!-- choose one -->
     <script src="https://unpkg.com/feather-icons"></script>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/full-length.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/nobleUI/style.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/overpass-font.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/core.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/simplemde/simplemde.min.css}">
 </head>
 <body>
-<div class="page-wrapper">
+<div class="main-wrapper">
+    <div th:insert="~{layout/sideBar}">
 
-    <div th:insert="~{layout/navBar}"></div>
-    <div class="page-content">
-        <div class="row mt-4">
-            <div class="col-4">
-            </div>
-            <div class="col-4">
-                <div layout:fragment="content_view">
-                </div>
-            </div>
-            <div class="col-4">
+    </div>
+    <div class="page-wrapper">
+        <div th:insert="~{layout/navBar}"></div>
+        <div class="page-content">
+            <div class="profile-page tx-13" layout:fragment="content_view">
             </div>
         </div>
     </div>
 </div>
+<script>
+    feather.replace()
+</script>
 <!--<script th:src="@{/js/jquery.js}"></script>-->
 <!--<script th:src="@{/js/bootstrap.js}"></script>-->
 <!--<script th:src="@{/js/template.js}"></script>-->
 <script th:src="@{/js/nobleJS/core.js}"></script>
 <script th:src="@{/js/nobleJS/feather.min.js}"></script>
 <script th:src="@{/js/nobleJS/template.js}"></script>
-<script th:src="@{/js/simplemde/simplemde.min.js}"></script>
-<script>
-    var simplemde = new SimpleMDE({element: document.getElementById("content")});
-</script>
 </body>
 </html>
