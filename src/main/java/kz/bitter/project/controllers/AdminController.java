@@ -43,7 +43,7 @@ public class AdminController {
         return "admin/course-panel";
     }
 
-    @GetMapping(value = "/edit-course/{id}")
+    @GetMapping(value = "/edit/course/{id}")
     public String editCourse (@PathVariable ("id") Long id,
                               Model model){
         model.addAttribute("chapterList", courseService.getChapterByCourseId(id));
@@ -51,7 +51,7 @@ public class AdminController {
         return "admin/edit-course";
     }
 
-    @GetMapping(value = "/edit-chapter/{id}")
+    @GetMapping(value = "/edit/chapter/{id}")
     public String editChapter (@PathVariable ("id") Long id,
                               Model model){
         model.addAttribute("lessonList", courseService.getLessonsByChapterId(id));
@@ -59,7 +59,7 @@ public class AdminController {
         return "admin/edit-chapter";
     }
 
-    @GetMapping(value = "/edit-lesson/{id}")
+    @GetMapping(value = "/edit/lesson/{id}")
     public String editLesson (Model model,
                               @PathVariable ("id") Long id){
 
@@ -68,7 +68,7 @@ public class AdminController {
         return "admin/edit-lesson";
     }
 
-    @PostMapping (value = "/saveCourse")
+    @PostMapping (value = "/save-course")
     public String saveCourse (
             @RequestParam (name = "course_id") Long id,
             @RequestParam (name = "course_name") String name,
@@ -113,7 +113,7 @@ public class AdminController {
         return "redirect:/edit-chapter/" + lesson.getChapter().getId();
     }
 
-    @PostMapping(value = "/saveAccount")
+    @PostMapping(value = "/save-account")
     public String saveUserAccount(@RequestParam(name = "user_id") String id,
                                   @RequestParam(name = "user_email") String userEmail,
                                   @RequestParam(name = "user_nickname") String userNickname,

@@ -49,7 +49,7 @@
                         <p th:text="${i.description}"></p>
                     </div>
                     <div class="card-footer">
-                        <a class="btn btn-primary card-link" th:href="@{'edit-course/' + ${i.id}}">Details</a>
+                        <a class="btn btn-primary card-link" th:href="@{'edit/course/' + ${i.id}}">Details</a>
                         <button class="btn btn-light card-link" data-toggle="modal" data-target="#course-details"
                            th:attr="data-target='#course-details'+${i.id}">
                             Edit Course
@@ -95,7 +95,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form th:action="@{/saveCourse}" method="post">
+                            <form th:action="@{/save-course}" method="post">
                                 <input type="hidden" name="course_id" th:value="${i.id}">
                                 <div class="form-group">
                                     <label>Course Name</label>
