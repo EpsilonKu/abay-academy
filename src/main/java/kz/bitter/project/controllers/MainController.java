@@ -1,5 +1,7 @@
 package kz.bitter.project.controllers;
 
+import kz.bitter.project.entities.Chapters;
+import kz.bitter.project.entities.Lessons;
 import kz.bitter.project.entities.Users;
 import kz.bitter.project.enums.Gender;
 import kz.bitter.project.services.CourseService;
@@ -26,6 +28,8 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class MainController {
@@ -61,26 +65,42 @@ public class MainController {
     @GetMapping (value = "/course/{id}")
     public String courseView (@PathVariable ("id") Long id,
                               Model model){
-        model.addAttribute("currentUse",getUserData());
+        model.addAttribute("currentUser",getUserData());
         model.addAttribute( "currentCourse", courseService.getCourseById(id));
         return "user/course-view";
     }
 
+    @GetMapping (value = "/course/view/{id}")
+    public String courseLearn (@PathVariable Long id,
+                               Model model){
+        model.addAttribute("currentUser", getUserData());
+        model.addAttribute("currentCourse",courseService.getCourseById(id));
+        List<Chapters> chaptersList = courseService.getChapterByCourseId(id);
+        model.addAttribute("currentChapterList",chaptersList);
+        model.addAttribute("currentChapter",0);
+        model.addAttribute("currentLesson",0);
+        List<List<Lessons>> lessonsList = new ArrayList<>();
+        for (Chapters i : chaptersList){
+            List <Lessons> lessons = courseService.getLessonsByChapterId(i.getId());
+            lessonsList.add(lessons);
+        }
+        model.addAttribute("currentLessonList", lessonsList);
+        return "user/course-learn";
+    }
+
     @GetMapping (value = "/search")
     public String search (Model model, @RequestParam (name = "key") String key){
-        model.addAttribute("currenUser" , getUserData());
-
+        model.addAttribute("currentUser" , getUserData());
         model.addAttribute("key",key);
         return "/resultSet";
     }
 
     @GetMapping (value = "/signUp")
-    public String signUp (Model model,
-                          HttpSession session,
+    public String signUp (HttpSession session,
                           @RequestParam (name = "first_name") String firstName,
                           @RequestParam (name = "last_name" ) String lastName,
                           @RequestParam (name = "gender") String gender){
-        if(firstName != null && lastName != null && gender != ""){
+        if(firstName != null && lastName != null && gender.equals("")){
             session.setAttribute("firstName",firstName);
             session.setAttribute("lastName",lastName);
             session.setAttribute("gender",gender);
@@ -96,41 +116,30 @@ public class MainController {
                             @RequestParam (name = "user_new_password") String newPassword,
                             @RequestParam (name = "user_re_new_password") String reNewPassword){
         System.out.println(session.getAttribute("gender"));
+
+
+        String firstName = session.getAttribute("firstName") + "";
+        String lastName = session.getAttribute("lastName") + "";
+        Users newUser = new Users();
+
+        newUser.setEmail(email);
+        newUser.setUsername(nickname);
+        newUser.setPassword(newPassword);
+        newUser.setName(firstName + lastName);
+        newUser.setId(null);
+        newUser.setBirthday(null);
+        newUser.setAvatar(null);
+
         if (newPassword.equals(reNewPassword)){
             String gender = session.getAttribute("gender") + "";
             if (gender.equals("male")){
-                String firstName = session.getAttribute("firstName") + "";
-                String lastName = session.getAttribute("lastName") + "";
-                Users newUser = new Users();
-                newUser.setEmail(email);
-                newUser.setUsername(nickname);
-                newUser.setPassword(newPassword);
-                newUser.setName(firstName + lastName);
                 newUser.setGender(Gender.MALE);
-                newUser.setId(null);
-                newUser.setBirthday(null);
-                newUser.setAvatar(null);
-
-                userService.registerUser(newUser);
-                return "redirect:/profile";
             }
             if (session.getAttribute("gender") == "female"){
-                String firstName = session.getAttribute("firstName") + "";
-                String lastName = session.getAttribute("lastName") + "";
-
-                Users newUser = new Users();
-                newUser.setEmail(email);
-                newUser.setUsername(nickname);
-                newUser.setPassword(newPassword);
-                newUser.setName(firstName + lastName);
                 newUser.setGender(Gender.MALE);
-                newUser.setId(null);
-                newUser.setBirthday(null);
-                newUser.setAvatar(null);
-
-                userService.registerUser(newUser);
-                return "/profile";
             }
+            userService.registerUser(newUser);
+            return "redirect:/profile";
         }
         return "redirect:/";
     }
@@ -140,18 +149,17 @@ public class MainController {
 
         if (!(authentication instanceof AnonymousAuthenticationToken)){
             User secUser = (User) authentication.getPrincipal();
-            Users myUser = userService.getUserByEmailorUsername(secUser.getUsername(),secUser.getUsername());
-            return myUser;
+            return userService.getUserByEmailorUsername(secUser.getUsername(),secUser.getUsername());
         }
         return null;
     }
 
-    @PostMapping (value = "/uploadava")
+    @PostMapping (value = "/uploadAva")
     public String uploadAva (@RequestParam (name = "avatar")MultipartFile file){
 
         Users user = getUserData();
 
-        if (file.getContentType().equals("image/jpeg") || file.getContentType().equals("image/png")) {
+        if (file.getContentType() != null && user != null &&(file.getContentType().equals("image/jpeg") || file.getContentType().equals("image/png"))) {
             try {
 
                 String filename= DigestUtils.sha1Hex("avatar_" + user.getId());
@@ -163,22 +171,19 @@ public class MainController {
                 user.setAvatar(filename);
                 userService.saveUser(user);
 
-                return "redirect:/profile?avasuccess";
+                return "redirect:/profile";
             } catch (Exception e) {
                 e.printStackTrace();
 
             }
         }
-        return "redirect:/profile?avaerror";
+        return "redirect:/profile";
     }
 
-    @GetMapping (value="/viewphoto/{url}" , produces = {MediaType.IMAGE_JPEG_VALUE})
+    @GetMapping (value="/viewPhoto/{url}" , produces = {MediaType.IMAGE_JPEG_VALUE})
     @PreAuthorize("isAuthenticated()")
     public @ResponseBody byte[] viewProfilePhoto (@PathVariable (name="url") String url) throws IOException {
-        String pictureUrl = defaultAvaPath;
-
         InputStream in;
-
         try {
 
             ClassPathResource resource = new ClassPathResource(linkPath + url + ".jpg");

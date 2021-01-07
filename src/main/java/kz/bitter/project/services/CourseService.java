@@ -20,6 +20,6 @@ public interface CourseService {
     Chapters getChapterById (Long id);
     Lessons getLessonbyId (Long id);
 
-    List<Chapters> getChapterByCourseId (Courses course);
-    List<Lessons> getLessonsByChapterId (Chapters chapter);
+    List<Chapters> getChapterByCourseId (Long id);
+    List<Lessons> getLessonsByChapterId (Long id);
 }

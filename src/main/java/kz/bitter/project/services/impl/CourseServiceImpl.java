@@ -72,12 +72,12 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<Chapters> getChapterByCourseId(Courses course) {
-        return chapterRepository.findByCourse(course);
+    public List<Chapters> getChapterByCourseId(Long id) {
+        return chapterRepository.findByCourseId(id);
     }
     @Override
-    public List<Lessons> getLessonsByChapterId(Chapters chapter) {
-        return lessonRepository.getByChapter(chapter);
+    public List<Lessons> getLessonsByChapterId(Long id) {
+        return lessonRepository.findByChapterId(id);
     }
 
 }

@@ -11,7 +11,7 @@ import java.util.List;
 @Transactional
 @Repository
 public interface LessonRepository extends JpaRepository <Lessons,Long> {
-    List<Lessons> getByChapter (Chapters chapters);
+    List<Lessons> findByChapterId (Long id);
     void deleteAllByChapterCourseId (Long id);
     void deleteAllByChapterId (Long id);
 }

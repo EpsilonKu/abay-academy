@@ -46,18 +46,16 @@ public class AdminController {
     @GetMapping(value = "/edit-course/{id}")
     public String editCourse (@PathVariable ("id") Long id,
                               Model model){
-        Courses course = courseService.getCourseById(id);
-        model.addAttribute("chapterList", courseService.getChapterByCourseId(course));
-        model.addAttribute("course",course);
+        model.addAttribute("chapterList", courseService.getChapterByCourseId(id));
+        model.addAttribute("course",courseService.getCourseById(id));
         return "admin/edit-course";
     }
 
     @GetMapping(value = "/edit-chapter/{id}")
     public String editChapter (@PathVariable ("id") Long id,
                               Model model){
-        Chapters chapter = courseService.getChapterById(id);
-        model.addAttribute("lessonList", courseService.getLessonsByChapterId(chapter));
-        model.addAttribute("chapter",chapter);
+        model.addAttribute("lessonList", courseService.getLessonsByChapterId(id));
+        model.addAttribute("chapter",courseService.getChapterById(id));
         return "admin/edit-chapter";
     }
 

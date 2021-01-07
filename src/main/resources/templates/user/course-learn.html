@@ -4,8 +4,15 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <div class="col-12" layout:fragment="content_view">
     <div class="row profile-body">
-        <div class="d-none d-xl-block col-xl-8 left-wrapper">
-
+        <div class="col-sm-12 col-md-8 col-xl-8 left-wrapper">
+            <h1 th:text="${currentLessonList[currentChapter][currentLesson].name}">Title</h1>
+            <div th:utext="${currentLessonList[currentChapter][currentLesson].htmlContent}">Content</div>
+        </div>
+        <div class="d-none d-md-block right-wrapper">
+            <div class="list-group" th:each="i : ${currentLessonList}">
+                <div class="separator"></div>
+                <a href="#" class="list-group-item list-group-item-action" th:each="j : ${i}" th:text="${j.name}"></a>
+            </div>
         </div>
     </div>
 </div>

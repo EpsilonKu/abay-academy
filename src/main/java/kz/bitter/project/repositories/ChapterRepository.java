@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 @Transactional
 public interface ChapterRepository extends JpaRepository <Chapters,Long> {
-    List <Chapters> findByCourse (Courses course);
+    List <Chapters> findByCourseId (Long id);
     void deleteAllByCourseId (Long id);
 }
