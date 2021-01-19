@@ -131,7 +131,7 @@ public class AdminController {
         Lessons lesson = new Lessons();
         lesson.setChapter(courseService.getChapterById(chapterId));
         lesson = courseService.saveLesson(lesson);
-        return "redirect:/edit/lesson/" + lesson.getChapter().getId();
+        return "redirect:/edit/lesson/" + lesson.getId();
     }
 
     @PostMapping (value = "/remove-course")
