@@ -107,7 +107,6 @@ public class AdminController {
     public String saveLesson (Lessons lesson,
                               Model model,
                               @RequestParam(name = "chapter_id") Long chapterId){
-        lesson.setHtmlContent(markdownToHTML(lesson.getContent()));
         lesson.setChapter(courseService.getChapterById(chapterId));
         courseService.saveLesson(lesson);
         return "redirect:/edit/chapter/" + lesson.getChapter().getId();

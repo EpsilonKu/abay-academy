@@ -1,7 +1,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="layout/editStruct">
-<link rel="stylesheet" type="text/css" th:href="@{/css/simplemde/simplemde.min.css}">
+<!--<link rel="stylesheet" type="text/css" th:href="@{/css/simplemde/simplemde.min.css}">-->
 <div class="col-12 stretch-card grid-margin" layout:fragment="content_view">
     <div class="card">
         <div class="card-body col-12">
@@ -18,7 +18,7 @@
                 </div>
                     <input type="hidden" th:field="*{id}">
                     <input type="hidden" th:field="*{orderPlace}">
-                    <input type="hidden" name="chapter_id" th:value="${currentLesson.chapter.id}">
+                    <input type="hidden" name="chapter_id" th:value="*{chapter.id}">
                 <button class="btn btn-success" type="submit">Save</button>
             </form>
         </div>
