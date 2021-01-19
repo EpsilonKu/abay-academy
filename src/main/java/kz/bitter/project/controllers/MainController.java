@@ -100,7 +100,7 @@ public class MainController {
                           @RequestParam (name = "first_name") String firstName,
                           @RequestParam (name = "last_name" ) String lastName,
                           @RequestParam (name = "gender") String gender){
-        if(firstName != null && lastName != null && gender.equals("")){
+        if(firstName != null && lastName != null && !gender.equals("")){
             session.setAttribute("firstName",firstName);
             session.setAttribute("lastName",lastName);
             session.setAttribute("gender",gender);
