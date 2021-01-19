@@ -73,11 +73,13 @@
                                                 <input type="hidden" name="course_id" th:value="${course.id}">
                                                 <div class="form-group">
                                                     <label>Chapter Name</label>
-                                                    <input type="text" class="form-control" name="course_name" th:value="${i.name}">
+                                                    <input type="text" class="form-control" name="course_name"
+                                                           th:value="${i.name}">
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Course Description</label>
-                                                    <input type="text" class="form-control" name="course_description" th:value="${i.description}">
+                                                    <input type="text" class="form-control" name="course_description"
+                                                           th:value="${i.description}">
                                                 </div>
                                                 <div class="form-group">
                                                     <button class="btn btn-primary">Save chapter</button>
@@ -94,26 +96,28 @@
                                 <i data-feather="trash-2"></i>
                             </button>
                             <div class="modal fade" tabindex="-1" role="dialog" th:id="chapter-remove+${i.id}">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body px-4 py-5">
-                                        <h5 class="text-muted font-weight-normal mb-4">Are you sure to remove
-                                            course?</h5>
-                                        <form th:action="@{/remove-chapter}" method="post">
-                                            <div class="form-group">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            You can't restore after delete. Are you sure to delete this course
+                                        </div>
+                                        <div class="modal-footer">
+                                            <form th:action="@{/remove-chapter}" method="post">
                                                 <input type="hidden" name="chapter_id" th:value="${i.id}">
                                                 <input type="hidden" name="course_id" th:value="${i.course.id}">
+
                                                 <button class="btn btn-danger">Delete</button>
-                                            </div>
-                                        </form>
-                                        <button type="button" class="btn btn-behance" data-dismiss="modal"
-                                                aria-label="Close">
-                                            No
-                                        </button>
+                                                <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal" aria-label="Close">
+                                                    Cancel
+                                                </button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

@@ -100,7 +100,7 @@ public class AdminController {
         chapter.setDescription(description);
 
         courseService.saveChapter(chapter);
-        return "redirect:/edit-course/" + courseId;
+        return "redirect:/edit/course/" + courseId;
     }
 
     @PostMapping (value = "/save-lesson")
@@ -110,7 +110,7 @@ public class AdminController {
         lesson.setHtmlContent(markdownToHTML(lesson.getContent()));
         lesson.setChapter(courseService.getChapterById(chapterId));
         courseService.saveLesson(lesson);
-        return "redirect:/edit-chapter/" + lesson.getChapter().getId();
+        return "redirect:/edit/chapter/" + lesson.getChapter().getId();
     }
 
     @PostMapping(value = "/save-account")
@@ -125,6 +125,14 @@ public class AdminController {
             return userService.saveUser(user) != null ? "redirect:/user-panel" : "redirect:-/user-panel?saveerror";
         }
         return "redirect:/";
+    }
+
+    @PostMapping (value = "/new-lesson")
+    public String saveLesson (@RequestParam(name = "chapter_id") Long chapterId){
+        Lessons lesson = new Lessons();
+        lesson.setChapter(courseService.getChapterById(chapterId));
+        lesson = courseService.saveLesson(lesson);
+        return "redirect:/edit/lesson/" + lesson.getChapter().getId();
     }
 
     @PostMapping (value = "/remove-course")
@@ -148,7 +156,7 @@ public class AdminController {
         if(chapter != null) {
             courseService.removeChapter(id);
 
-            return "redirect:/edit-course/" + courseId;
+            return "redirect:/edit/course/" + courseId;
         }
         else {
             return "redirect:/";
@@ -162,7 +170,7 @@ public class AdminController {
         Lessons lesson = courseService.getLessonbyId(id);
         if(lesson != null) {
             courseService.removeLesson(id);
-            return "redirect:/chapter-edit/" + chapterId;
+            return "redirect:/edit/chapter/" + chapterId;
         }
         else {
             return "redirect:/";

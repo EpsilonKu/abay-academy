@@ -74,8 +74,8 @@
                             Are you sure to remove course?
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-behance" data-dismiss="modal">
-                                No
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                Cancel
                             </button>
                             <form th:action="@{/remove-course}" method="post">
                                 <input type="hidden" name="course_id" th:value="${i.id}">

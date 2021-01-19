@@ -34,8 +34,8 @@ public class CourseServiceImpl implements CourseService {
         chapterRepository.save(chapter);
     }
     @Override
-    public void saveLesson(Lessons lesson) {
-        lessonRepository.save(lesson);
+    public Lessons saveLesson(Lessons lesson) {
+        return lessonRepository.save(lesson);
     }
 
     @Override

@@ -10,7 +10,7 @@ public interface CourseService {
     List<Courses> getAllCourses ();
     void saveCourse (Courses course);
     void saveChapter (Chapters chapter);
-    void saveLesson (Lessons lesson);
+    Lessons saveLesson (Lessons lesson);
 
     void removeCourse (Long id);
     void removeChapter (Long id);
