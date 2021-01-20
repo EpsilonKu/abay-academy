@@ -5,9 +5,11 @@ import kz.bitter.project.enums.Roles;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table (name = "t_users")
@@ -42,4 +44,6 @@ public class Users extends BaseEntity{
     @Column (name  = "avatar")
     private String avatar;
 
+    @ManyToMany (fetch = FetchType.LAZY)
+    List <Groups> groups;
 }

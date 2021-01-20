@@ -20,4 +20,10 @@ public class Courses extends BaseEntity{
     @Column (name = "description")
     private String description;
 
+    @ManyToMany (fetch = FetchType.LAZY)
+    private List<Users> users;
+
+    @ManyToMany (fetch = FetchType.LAZY)
+    private  List<Groups> groups;
+
 }
