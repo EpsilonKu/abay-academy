@@ -16,24 +16,26 @@
                             <span class="font-weight-bold big-text m-2" th:text="${currentCourse.name}">  </span>
                         </div>
                         <div class="d-none d-md-block">
-                            <button class="btn btn-success btn-icon-text">
-                                <i data-feather="play" class="btn-icon-prepend"></i> Start Course
-                            </button>
+                            <form method="get" th:action="@{'/course/view/' + ${currentCourse.id} + '/0/0'}">
+                                <button class="btn btn-success btn-icon-text">
+                                    <i data-feather="play" class="btn-icon-prepend"></i> Start Course
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
-<!--                <div class="header-links">-->
-<!--                    <ul class="d-flex align-items-center mt-3 mt-md-0">-->
-<!--                        <li class="d-flex align-items-center active">-->
-<!--                            <i class="mr-1 icon-md" data-feather="grid"></i>-->
-<!--                            <a class="pt-1px d-none d-md-block" href="#">Learning Courses</a>-->
-<!--                        </li>-->
-<!--                        <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center">-->
-<!--                            <i class="mr-1 icon-md" data-feather="file"></i>-->
-<!--                            <a class="pt-1px d-none d-md-block" href="#">Certifies</a>-->
-<!--                        </li>-->
-<!--                    </ul>-->
-<!--                </div>-->
+                <!--                <div class="header-links">-->
+                <!--                    <ul class="d-flex align-items-center mt-3 mt-md-0">-->
+                <!--                        <li class="d-flex align-items-center active">-->
+                <!--                            <i class="mr-1 icon-md" data-feather="grid"></i>-->
+                <!--                            <a class="pt-1px d-none d-md-block" href="#">Learning Courses</a>-->
+                <!--                        </li>-->
+                <!--                        <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center">-->
+                <!--                            <i class="mr-1 icon-md" data-feather="file"></i>-->
+                <!--                            <a class="pt-1px d-none d-md-block" href="#">Certifies</a>-->
+                <!--                        </li>-->
+                <!--                    </ul>-->
+                <!--                </div>-->
             </div>
         </div>
     </div>

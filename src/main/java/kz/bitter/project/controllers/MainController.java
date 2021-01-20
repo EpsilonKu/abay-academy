@@ -70,15 +70,17 @@ public class MainController {
         return "user/course-view";
     }
 
-    @GetMapping (value = "/course/view/{id}")
+    @GetMapping (value = "/course/view/{id}/{chapterId}/{lessonId}")
     public String courseLearn (@PathVariable Long id,
+                               @PathVariable Long chapterId,
+                               @PathVariable Long lessonId,
                                Model model){
         model.addAttribute("currentUser", getUserData());
         model.addAttribute("currentCourse",courseService.getCourseById(id));
         List<Chapters> chaptersList = courseService.getChapterByCourseId(id);
         model.addAttribute("currentChapterList",chaptersList);
-        model.addAttribute("currentChapter",0);
-        model.addAttribute("currentLesson",0);
+        model.addAttribute("currentChapter",chapterId);
+        model.addAttribute("currentLesson",lessonId);
         List<List<Lessons>> lessonsList = new ArrayList<>();
         for (Chapters i : chaptersList){
             List <Lessons> lessons = courseService.getLessonsByChapterId(i.getId());
