@@ -4,15 +4,58 @@
 <div class="col-12 stretch-card grid-margin" layout:fragment="content_view">
     <div class="card">
         <div class="card-body col-12">
-            <h6 class="card-title">Basic Table</h6>
-            <p class="card-description">Add class <code>.table</code></p>
+            <a class="btn btn-light" data-toggle="modal" data-target="#add-user">Add new user</a>
+            <div class="modal fade" tabindex="-1" role="dialog" id="add-user">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Add new chapter</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form th:action="@{/signUpFull}" method="post">
+                                <div class="form-group">
+                                    <label th:text="#{account.firstName}"></label>
+                                    <input type="text" class="form-control" name="first_name" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label th:text="#{account.lastName}"></label>
+                                    <input type="text" class="form-control" name="last_name" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label th:text="#{account.email}"></label>
+                                    <input type="email" class="form-control" name="user_email">
+                                </div>
+                                <div class="form-group">
+                                    <label th:text="#{account.nickname}"></label>
+                                    <input type="text" class="form-control" name="user_nickname">
+                                </div>
+                                <div class="form-group">
+                                    <label th:text="#{account.new.password}"></label>
+                                    <input type="password" class="form-control" name="user_new_password">
+                                </div>
+                                <div class="form-group">
+                                    <label th:text="#{account.re.new.password}"></label>
+                                    <input type="password" class="form-control" name="user_re_new_password">
+                                </div>
+                                <div class="form-group my-2">
+                                    <button class="btn btn-success" th:text="#{button.signUpContinue}"></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="table-responsive">
                 <table class="table">
                     <thead>
                     <tr>
                         <th>#</th>
                         <th>Name</th>
-                        <th>LAST NAME</th>
                         <th>USERNAME</th>
                         <th>Edit</th>
                         <th>Remove</th>
@@ -22,7 +65,6 @@
                     <tr th:each="i : ${allUsers}">
                         <td th:text="${i.id}"></td>
                         <td th:text="${i.name}"></td>
-                        <td th:text="${i.name}"></td> to
                         <td th:text="${i.username}"></td>
                         <td>
                             <a class="btn btn-info" data-toggle="modal" data-target="#modal-details"
@@ -80,9 +122,7 @@
                                                         <button class="btn btn-primary">Save New Password</button>
                                                     </div>
                                                 </form>
-
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
@@ -90,26 +130,28 @@
                         </td>
                         <td>
                             <button class="btn btn-danger btn-icon" data-toggle="modal" data-target="#user-remove"
-                               th:attr="data-target='#user-remove'+${i.id}">
+                                    th:attr="data-target='#user-remove'+${i.id}">
                                 <i data-feather="trash-2"></i>
                             </button>
                             <div class="modal fade" tabindex="-1" role="dialog" th:id="user-remove+${i.id}">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title">Are you sure to remove course?</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
                                         <div class="modal-body">
+                                            Are you sure to remove this user?
+                                        </div>
+                                        <div class="modal-footer">
                                             <form th:action="@{/remove-user}" method="post">
                                                 <input type="hidden" name="user_id" th:value="${i.id}">
                                                 <button class="btn btn-danger">Delete</button>
                                             </form>
-                                            <button type="button" class="btn btn-behance" data-dismiss="modal"
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal"
                                                     aria-label="Close">
-                                                <span>No</span>
+                                                <span>Cancel</span>
                                             </button>
                                         </div>
                                     </div>
