@@ -10,7 +10,7 @@
         </div>
         <div class="col-4">
             <div class="list-group" th:each="chapterList, chapterIter: ${currentLessonList}">
-                <a class="list-group-item list-group-item-dark" th:text="${chapterList [chapterIter.index].name}"></a>
+                <a class="list-group-item list-group-item-dark" th:text="${currentChapterList [chapterIter.index].name}"></a>
                 <a class="list-group-item list-group-item-action" th:each="lesson, lessonIter: ${chapterList}" th:text="${lesson.name}"
                 th:href="@{'/course/view/' + ${currentCourse.id} + '/' + ${chapterIter.index} + '/' + ${lessonIter.index}}"
                    th:classappend="${#request.getRequestURI() == '/course/view/' + currentCourse.id + '/' + chapterIter.index + '/' + lessonIter.index  ? 'active' : ''}">
