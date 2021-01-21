@@ -6,10 +6,10 @@
         <div class="card-body col-12">
             <a class="btn btn-light" data-toggle="modal" data-target="#add-user">Add new user</a>
             <div class="modal fade" tabindex="-1" role="dialog" id="add-user">
-                <div class="modal-dialog">
+                <div class="modal-dialog modal-dialog-scrollable">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Add new chapter</h5>
+                            <h5 class="modal-title">Add new User</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -78,7 +78,7 @@
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <div class="modal-content">
+                                        <div class="modal-body">
                                             <div class="px-4 py-5">
                                                 <form th:action="@{/save-account}" method="post">
                                                     <input type="hidden" name="user_id" th:value="${i.id}">
