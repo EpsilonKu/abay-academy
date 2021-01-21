@@ -2,16 +2,24 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="layout/mainStruct">
 <div class="col-12 stretch-card grid-margin" layout:fragment="content_view">
-
-
     <div class="flex-md-wrap p-3">
+        <div class="row min-vw-100">
+            <div class="px-4 py-1">
+                <div th:if="${param.removeSuccess != null}" class="alert alert-danger min-vw-75" role="alert"
+                     th:text="${'Course with ' + param.removeSuccess + ' ID was removed'}">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times</span>
+                    </button>
+                </div>
+            </div>
+        </div>
         <div class="row w-100">
-            <div class="p-4">
+            <div class="px-4 py-1">
                 <button class="btn btn-success btn-icon border" data-toggle="modal" data-target="#add-course">
                     <i data-feather="plus"></i>
                 </button>
             </div>
-            <div class="modal fade" tabindex="-1" role="dialog" id="add-course">tele
+            <div class="modal fade" tabindex="-1" role="dialog" id="add-course">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -25,11 +33,11 @@
                                 <input type="hidden" name="course_id" th:value="${-1}">
                                 <div class="form-group">
                                     <label>Course Name</label>
-                                    <input type="text" class="form-control" name="course_name">
+                                    <input type="text" class="form-control" name="course_name" required>
                                 </div>
                                 <div class="form-group">
                                     <label>Course Description</label>
-                                    <input type="text" class="form-control" name="course_description">
+                                    <input type="text" class="form-control" name="course_description" required>
                                 </div>
                                 <div class="form-group">
                                     <button class="btn btn-primary">Create course</button>
@@ -41,8 +49,8 @@
             </div>
         </div>
 
-        <div class="p-2" th:each=" i : ${allCourses}">
-            <div class="min-vw-70">
+        <div class="p-2 min-vw-100" th:each=" i : ${allCourses}">
+            <div class="min-vw-60 max-vm-80">
                 <div class="card my-2">
                     <div class="card-body">
                         <h5 class="card-title" th:text="${i.name}"></h5>
@@ -51,17 +59,18 @@
                     <div class="card-footer">
                         <a class="btn btn-primary card-link" th:href="@{'edit/course/' + ${i.id}}">Details</a>
                         <button class="btn btn-light card-link" data-toggle="modal" data-target="#course-details"
-                           th:attr="data-target='#course-details'+${i.id}">
+                                th:attr="data-target='#course-details'+${i.id}">
                             Edit Course
                         </button>
-                        <button type="button" class="card-link btn btn-danger btn-icon" data-toggle="modal" data-target="#course-remove"
-                           th:attr="data-target='#course-remove'+${i.id}">
+                        <button type="button" class="card-link btn btn-danger btn-icon" data-toggle="modal"
+                                data-target="#course-remove"
+                                th:attr="data-target='#remove-course'+${i.id}">
                             <i data-feather="trash-2"></i>
                         </button>
                     </div>
                 </div>
             </div>
-            <div class="modal fade" tabindex="-1" role="dialog" th:id="course-remove+${i.id}">
+            <div class="modal fade" tabindex="-1" role="dialog" th:id="remove-course+${i.id}">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -99,12 +108,13 @@
                                 <input type="hidden" name="course_id" th:value="${i.id}">
                                 <div class="form-group">
                                     <label>Course Name</label>
-                                    <input type="text" class="form-control" name="course_name" th:value="${i.name}">
+                                    <input type="text" class="form-control" name="course_name" th:value="${i.name}"
+                                           required>
                                 </div>
                                 <div class="form-group">
                                     <label>Course Description</label>
                                     <input type="text" class="form-control" name="course_description"
-                                           th:value="${i.description}">
+                                           th:value="${i.description}" required>
                                 </div>
                                 <div class="form-group">
                                     <button class="btn btn-primary">Save course</button>

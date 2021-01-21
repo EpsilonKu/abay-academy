@@ -141,7 +141,7 @@ public class AdminController {
         Courses course = courseService.getCourseById(id);
         if (course != null) {
             courseService.removeCourse(id);
-            return "redirect:/course-panel";
+            return "redirect:/course-panel?removeSuccess=" + id;
         } else {
             return "redirect:/";
         }
