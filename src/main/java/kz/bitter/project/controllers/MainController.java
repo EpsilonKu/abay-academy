@@ -100,12 +100,10 @@ public class MainController {
     @GetMapping (value = "/signUp")
     public String signUp (HttpSession session,
                           @RequestParam (name = "first_name") String firstName,
-                          @RequestParam (name = "last_name" ) String lastName,
-                          @RequestParam (name = "gender") String gender){
-        if(firstName != null && lastName != null && !gender.equals("")){
+                          @RequestParam (name = "last_name" ) String lastName){
+        if(firstName != null && lastName != null){
             session.setAttribute("firstName",firstName);
             session.setAttribute("lastName",lastName);
-            session.setAttribute("gender",gender);
             return "signUp";
         }
         return "redirect:/";
@@ -129,17 +127,9 @@ public class MainController {
         newUser.setPassword(newPassword);
         newUser.setName(firstName + lastName);
         newUser.setId(null);
-        newUser.setBirthday(null);
         newUser.setAvatar(null);
 
         if (newPassword.equals(reNewPassword)){
-            String gender = session.getAttribute("gender") + "";
-            if (gender.equals("male")){
-                newUser.setGender(Gender.MALE);
-            }
-            if (session.getAttribute("gender") == "female"){
-                newUser.setGender(Gender.MALE);
-            }
             userService.registerUser(newUser);
             return "redirect:/profile";
         }

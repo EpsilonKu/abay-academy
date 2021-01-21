@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -32,49 +33,49 @@ public class AdminController {
     private CourseService courseService;
 
     @GetMapping(value = "/user-panel")
-    public String userPanel (Model model){
-        model.addAttribute("allUsers",userService.getAllUsers());
+    public String userPanel(Model model) {
+        model.addAttribute("allUsers", userService.getAllUsers());
         return "admin/user-panel";
     }
 
     @GetMapping(value = "/course-panel")
-    public String coursePanel (Model model){
+    public String coursePanel(Model model) {
         model.addAttribute("allCourses", courseService.getAllCourses());
         return "admin/course-panel";
     }
 
     @GetMapping(value = "/edit/course/{id}")
-    public String editCourse (@PathVariable ("id") Long id,
-                              Model model){
+    public String editCourse(@PathVariable("id") Long id,
+                             Model model) {
         model.addAttribute("chapterList", courseService.getChapterByCourseId(id));
-        model.addAttribute("course",courseService.getCourseById(id));
+        model.addAttribute("course", courseService.getCourseById(id));
         return "admin/edit-course";
     }
 
     @GetMapping(value = "/edit/chapter/{id}")
-    public String editChapter (@PathVariable ("id") Long id,
-                              Model model){
+    public String editChapter(@PathVariable("id") Long id,
+                              Model model) {
         model.addAttribute("lessonList", courseService.getLessonsByChapterId(id));
-        model.addAttribute("chapter",courseService.getChapterById(id));
+        model.addAttribute("chapter", courseService.getChapterById(id));
         return "admin/edit-chapter";
     }
 
     @GetMapping(value = "/edit/lesson/{id}")
-    public String editLesson (Model model,
-                              @PathVariable ("id") Long id){
+    public String editLesson(Model model,
+                             @PathVariable("id") Long id) {
 
         Lessons lesson = courseService.getLessonbyId(id);
-        model.addAttribute("currentLesson",lesson);
+        model.addAttribute("currentLesson", lesson);
         return "admin/edit-lesson";
     }
 
-    @PostMapping (value = "/save-course")
-    public String saveCourse (
-            @RequestParam (name = "course_id") Long id,
-            @RequestParam (name = "course_name") String name,
-            @RequestParam (name = "course_description") String description){
+    @PostMapping(value = "/save-course")
+    public String saveCourse(
+            @RequestParam(name = "course_id") Long id,
+            @RequestParam(name = "course_name") String name,
+            @RequestParam(name = "course_description") String description) {
         Courses courses = new Courses();
-        if (id!= -1 ){
+        if (id != -1) {
             courses.setId(id);
         }
         courses.setName(name);
@@ -84,14 +85,14 @@ public class AdminController {
         return "redirect:/course-panel";
     }
 
-    @PostMapping (value = "/save-chapter")
-    public String saveChapter (
-            @RequestParam (name = "course_id") Long courseId,
-            @RequestParam (name = "course_name") String name,
-            @RequestParam (name = "course_description") String description,
-            @RequestParam (name = "chapter_id") Long id){
+    @PostMapping(value = "/save-chapter")
+    public String saveChapter(
+            @RequestParam(name = "course_id") Long courseId,
+            @RequestParam(name = "course_name") String name,
+            @RequestParam(name = "course_description") String description,
+            @RequestParam(name = "chapter_id") Long id) {
         Chapters chapter = new Chapters();
-        if (id!= -1 ){
+        if (id != -1) {
             chapter.setId(id);
         }
         Courses course = courseService.getCourseById(courseId);
@@ -103,10 +104,10 @@ public class AdminController {
         return "redirect:/edit/course/" + courseId;
     }
 
-    @PostMapping (value = "/save-lesson")
-    public String saveLesson (Lessons lesson,
-                              Model model,
-                              @RequestParam(name = "chapter_id") Long chapterId){
+    @PostMapping(value = "/save-lesson")
+    public String saveLesson(Lessons lesson,
+                             Model model,
+                             @RequestParam(name = "chapter_id") Long chapterId) {
         lesson.setChapter(courseService.getChapterById(chapterId));
         courseService.saveLesson(lesson);
         return "redirect:/edit/chapter/" + lesson.getChapter().getId();
@@ -118,7 +119,7 @@ public class AdminController {
                                   @RequestParam(name = "user_nickname") String userNickname,
                                   @RequestParam(name = "user_password") String password) {
         Users user = userService.getUserById(Long.parseLong(id));
-        if (user != null ) {
+        if (user != null) {
             user.setEmail(userEmail);
             user.setUsername(userNickname);
             return userService.saveUser(user) != null ? "redirect:/user-panel" : "redirect:-/user-panel?saveerror";
@@ -126,75 +127,84 @@ public class AdminController {
         return "redirect:/";
     }
 
-    @PostMapping (value = "/new-lesson")
-    public String saveLesson (@RequestParam(name = "chapter_id") Long chapterId){
+    @PostMapping(value = "/new-lesson")
+    public String saveLesson(@RequestParam(name = "chapter_id") Long chapterId) {
         Lessons lesson = new Lessons();
         lesson.setChapter(courseService.getChapterById(chapterId));
         lesson = courseService.saveLesson(lesson);
         return "redirect:/edit/lesson/" + lesson.getId();
     }
 
-    @PostMapping (value = "/remove-course")
-    public String removeCourse (
-            @RequestParam (name = "course_id") Long id){
+    @PostMapping(value = "/remove-course")
+    public String removeCourse(
+            @RequestParam(name = "course_id") Long id) {
         Courses course = courseService.getCourseById(id);
-        if(course != null) {
+        if (course != null) {
             courseService.removeCourse(id);
             return "redirect:/course-panel";
-        }
-        else {
+        } else {
             return "redirect:/";
         }
     }
 
-    @PostMapping (value = "/remove-chapter")
-    public String removeChapter (
-            @RequestParam (name = "chapter_id") Long id,
-            @RequestParam (name = "course_id") Long courseId){
+    @PostMapping(value = "/remove-chapter")
+    public String removeChapter(
+            @RequestParam(name = "chapter_id") Long id,
+            @RequestParam(name = "course_id") Long courseId) {
         Chapters chapter = courseService.getChapterById(id);
-        if(chapter != null) {
+        if (chapter != null) {
             courseService.removeChapter(id);
 
             return "redirect:/edit/course/" + courseId;
-        }
-        else {
+        } else {
             return "redirect:/";
         }
     }
 
-    @PostMapping (value = "/remove-lesson")
-    public String removeLesson (
-            @RequestParam (name = "lesson_id") Long id,
-            @RequestParam (name = "chapter_id") Long chapterId){
+    @PostMapping(value = "/remove-lesson")
+    public String removeLesson(
+            @RequestParam(name = "lesson_id") Long id,
+            @RequestParam(name = "chapter_id") Long chapterId) {
         Lessons lesson = courseService.getLessonbyId(id);
-        if(lesson != null) {
+        if (lesson != null) {
             courseService.removeLesson(id);
             return "redirect:/edit/chapter/" + chapterId;
-        }
-        else {
+        } else {
             return "redirect:/";
         }
     }
 
-    @PostMapping (value = "/remove-user")
-    public String removeUser (
-            @RequestParam (name = "user_id") Long id){
+    @PostMapping(value = "/remove-user")
+    public String removeUser(
+            @RequestParam(name = "user_id") Long id) {
         Users user = userService.getUserById(id);
-        if (user !=null){
+        if (user != null) {
             userService.removeUserById(id);
         }
         return "redirect:/user-panel";
     }
 
-    private String markdownToHTML(String markdown) {
-        Parser parser = Parser.builder()
-                .build();
+    @PostMapping(value = "/signUpFull")
+    public String toSignUpFull(@RequestParam(name = "user_email") String email,
+                               @RequestParam(name = "user_nickname") String nickname,
+                               @RequestParam(name = "user_new_password") String newPassword,
+                               @RequestParam(name = "user_re_new_password") String reNewPassword,
+                               @RequestParam(name = "first_name") String firstName,
+                               @RequestParam(name = "last_name") String lastName) {
+        Users newUser = new Users();
 
-        Node document = parser.parse(markdown);
-        HtmlRenderer renderer = HtmlRenderer.builder()
-                .build();
+        newUser.setEmail(email);
+        newUser.setUsername(nickname);
+        newUser.setPassword(newPassword);
+        newUser.setName(firstName + lastName);
+        newUser.setId(null);
+        newUser.setAvatar(null);
 
-        return renderer.render(document);
+        if (newPassword.equals(reNewPassword)) {
+            userService.registerUser(newUser);
+            return "redirect:/profile";
+        }
+        return "redirect:/";
     }
 
     private Users getUserData() {

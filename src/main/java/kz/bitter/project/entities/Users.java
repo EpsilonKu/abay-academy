@@ -30,13 +30,6 @@ public class Users extends BaseEntity{
     @Column (name = "fullname")
     private String name;
 
-    @Column (name = "birthday")
-    private Date birthday;
-
-    @Column (name = "gender")
-    @Enumerated (EnumType.ORDINAL)
-    private Gender gender;
-
     @Column (name = "role")
     @Enumerated (EnumType.ORDINAL)
     private Roles role;
