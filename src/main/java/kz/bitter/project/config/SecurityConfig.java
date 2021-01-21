@@ -30,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/authIn")
                 .usernameParameter("user_login")
                 .passwordParameter("user_password")
-                .failureUrl("/")
+                .failureUrl("/?error=true")
                 .loginPage("/")
                 .defaultSuccessUrl("/profile")
                 .permitAll();
