@@ -122,7 +122,7 @@ public class AdminController {
         if (user != null) {
             user.setEmail(userEmail);
             user.setUsername(userNickname);
-            return userService.saveUser(user) != null ? "redirect:/user-panel" : "redirect:-/user-panel?saveerror";
+            return userService.saveUser(user) != null ? "redirect:/user-panel?saveSuccess="+id : "redirect:/user-panel?saveError=true";
         }
         return "redirect:/";
     }
@@ -180,31 +180,35 @@ public class AdminController {
         Users user = userService.getUserById(id);
         if (user != null) {
             userService.removeUserById(id);
+            return "redirect:/user-panel?removeSuccess=" + id;
         }
-        return "redirect:/user-panel";
+        return "redirect:/user-panel?removeError=true";
     }
 
     @PostMapping(value = "/signUpFull")
     public String toSignUpFull(@RequestParam(name = "user_email") String email,
                                @RequestParam(name = "user_nickname") String nickname,
-                               @RequestParam(name = "user_new_password") String newPassword,
-                               @RequestParam(name = "user_re_new_password") String reNewPassword,
+                               @RequestParam(name = "user_password") String password,
+                               @RequestParam(name = "user_re_password") String rePassword,
                                @RequestParam(name = "first_name") String firstName,
                                @RequestParam(name = "last_name") String lastName) {
         Users newUser = new Users();
 
         newUser.setEmail(email);
         newUser.setUsername(nickname);
-        newUser.setPassword(newPassword);
+        newUser.setPassword(password);
         newUser.setName(firstName + lastName);
         newUser.setId(null);
         newUser.setAvatar(null);
 
-        if (newPassword.equals(reNewPassword)) {
-            userService.registerUser(newUser);
-            return "redirect:/profile";
+        if (password.equals(rePassword)) {
+            newUser = userService.registerUser(newUser);
+            if(newUser != null) {
+                return "redirect:/user-panel?regSuccess=" +newUser.getId();
+            }
+            else return "redirect:/user-panel?regNotFree=true";
         }
-        return "redirect:/";
+        return "redirect:/user-panel?regFail=true";
     }
 
     private Users getUserData() {
