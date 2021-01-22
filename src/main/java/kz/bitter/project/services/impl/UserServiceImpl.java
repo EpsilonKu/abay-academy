@@ -1,5 +1,6 @@
 package kz.bitter.project.services.impl;
 
+import kz.bitter.project.entities.Groups;
 import kz.bitter.project.entities.Users;
 import kz.bitter.project.enums.Roles;
 import kz.bitter.project.repositories.UserRepository;
@@ -32,6 +33,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Users saveUserToGroup(Users users, Groups groups) {
+        users.getGroups().add(groups);
+        userRepository.save(users);
+        return users;
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         Users myUser = userRepository.findByEmailOrUsername(s,s);
         if (myUser != null) {
@@ -60,6 +68,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<Users> getAllUsersByGroupId(Long id) {
+        return userRepository.findByGroupsId(id);
+    }
+
+    @Override
     public Users saveUser(Users user) {
         return userRepository.save(user);
     }
@@ -72,5 +85,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public void removeUserById(Long id) {
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public void kickUserFromGroup(Users users, Groups groups) {
+        for (Groups i:users.getGroups()){
+            if (i == groups){
+                users.getGroups().remove(i);
+                break;
+            }
+        }
+        userRepository.save(users);
     }
 }

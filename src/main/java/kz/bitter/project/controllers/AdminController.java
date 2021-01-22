@@ -1,10 +1,8 @@
 package kz.bitter.project.controllers;
 
-import kz.bitter.project.entities.Chapters;
-import kz.bitter.project.entities.Courses;
-import kz.bitter.project.entities.Lessons;
-import kz.bitter.project.entities.Users;
+import kz.bitter.project.entities.*;
 import kz.bitter.project.services.CourseService;
+import kz.bitter.project.services.GroupService;
 import kz.bitter.project.services.UserService;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
@@ -32,6 +30,9 @@ public class AdminController {
     @Autowired
     private CourseService courseService;
 
+    @Autowired
+    private GroupService groupService;
+
     @GetMapping(value = "/user-panel")
     public String userPanel(Model model) {
         model.addAttribute("allUsers", userService.getAllUsers());
@@ -43,6 +44,21 @@ public class AdminController {
         model.addAttribute("allCourses", courseService.getAllCourses());
         return "admin/course-panel";
     }
+
+    @GetMapping(value = "/group-panel")
+    public String groupPanel(Model model) {
+        model.addAttribute("allGroups", groupService.getAllGroups());
+        return "admin/group-panel";
+    }
+
+    @GetMapping(value = "/edit/group/{id}")
+    public String editGroup(@PathVariable("id") Long id,
+                             Model model) {
+        model.addAttribute("userList", userService.getAllUsersByGroupId(id));
+        model.addAttribute("group", groupService.getGroupById(id));
+        return "admin/edit-group";
+    }
+
 
     @GetMapping(value = "/edit/course/{id}")
     public String editCourse(@PathVariable("id") Long id,
@@ -84,6 +100,32 @@ public class AdminController {
         courseService.saveCourse(courses);
         return "redirect:/course-panel";
     }
+
+    @PostMapping(value = "/save-group")
+    public String saveGroup(
+            @RequestParam(name = "group_id") Long id,
+            @RequestParam(name = "group_name") String name,
+            @RequestParam(name = "group_description") String description) {
+        Groups group = new Groups();
+        if (id != -1) {
+            group.setId(id);
+        }
+        group.setName(name);
+        group.setDescription(description);
+
+        groupService.saveGroups(group);
+        return "redirect:/group-panel";
+    }
+    @PostMapping(value = "/save-user-to-group")
+    public String saveUserToGroup(
+            @RequestParam(name = "user_id") Long userId,
+            @RequestParam(name = "group_id") Long groupId) {
+            Users user = userService.getUserById(userId);
+            Groups groups = groupService.getGroupById(groupId);
+            userService.saveUserToGroup(user,groups);
+        return "redirect:/edit/group/" + groupId;
+    }
+
 
     @PostMapping(value = "/save-chapter")
     public String saveChapter(
@@ -145,6 +187,27 @@ public class AdminController {
         } else {
             return "redirect:/";
         }
+    }
+
+    @PostMapping(value = "/remove-group")
+    public String removeGroup(
+            @RequestParam(name = "group_id") Long id) {
+        Groups group = groupService.getGroupById(id);
+        if (group != null) {
+            groupService.removeGroups(group);
+            return "redirect:/group-panel?removeSuccess=" + id;
+        } else {
+            return "redirect:/";
+        }
+    }
+    @PostMapping(value = "/kick-user-from-group")
+    public String kickUserFromGroup(
+            @RequestParam(name = "user_id") Long userId,
+            @RequestParam(name = "group_id") Long groupId) {
+        Groups groups = groupService.getGroupById(groupId);
+        Users users = userService.getUserById(userId);
+        userService.kickUserFromGroup(users,groups);
+        return "redirect:/edit/group/" + groupId;
     }
 
     @PostMapping(value = "/remove-chapter")
