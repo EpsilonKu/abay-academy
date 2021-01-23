@@ -1,5 +1,6 @@
 package kz.bitter.project.services.impl;
 
+import kz.bitter.project.entities.Courses;
 import kz.bitter.project.entities.Groups;
 import kz.bitter.project.repositories.GroupRepository;
 import kz.bitter.project.services.GroupService;
@@ -33,5 +34,17 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public void removeGroups(Groups groups) {
         groupRepository.delete(groups);
+    }
+
+    @Override
+    public Groups saveCourseToGroup(Groups group, Courses course) {
+        group.getCourses().add(course);
+        return groupRepository.save(group);
+    }
+
+    @Override
+    public void kickCourseFromGroup(Groups group, Courses course) {
+        group.getCourses().remove(course);
+        groupRepository.save(group);
     }
 }

@@ -38,5 +38,8 @@ public class Users extends BaseEntity{
     private String avatar;
 
     @ManyToMany (fetch = FetchType.LAZY)
-    List <Groups> groups;
+    private List <Groups> groups;
+
+    @ManyToMany (fetch = FetchType.LAZY)
+    private List<Courses> courses;
 }

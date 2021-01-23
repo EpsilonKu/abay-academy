@@ -1,8 +1,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="layout/mainStruct">
-<div class="col-12 stretch-card grid-margin" layout:fragment="content_view">
-    <div class="card">
+<div class="col-12" layout:fragment="content_view">
+    <div class="card row">
         <div class="card-body col-12">
             <a class="btn btn-light" data-toggle="modal" data-target="#add-user">Add User to Group</a>
             <div class="modal fade" tabindex="-1" role="dialog" id="add-user">
@@ -61,6 +61,83 @@
                                         <div class="modal-footer">
                                             <form th:action="@{/kick-user-from-group}" method="post">
                                                 <input type="hidden" name="user_id" th:value="${i.id}">
+                                                <input type="hidden" name="group_id" th:value="${group.id}">
+                                                <button class="btn btn-danger">Delete</button>
+                                                <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal" aria-label="Close">
+                                                    Cancel
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="card row">
+        <div class="card-body col-12">
+            <a class="btn btn-light" data-toggle="modal" data-target="#add-courses">Add Course to Group</a>
+            <div class="modal fade" tabindex="-1" role="dialog" id="add-courses">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Add Course to Group</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form th:action="@{/save-course-to-group}" method="post">
+                                <input type="hidden" name="group_id" th:value="${group.id}">
+                                <div class="form-group">
+                                    <label>Course Id</label>
+                                    <input type="number" class="form-control" name="course_id">
+                                </div>
+                                <div class="form-group my-2">
+                                    <button class="btn btn-success">Save</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Remove</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="i : ${courseList}">
+                        <td th:text="${i.id}"></td>
+                        <td th:text="${i.name}"></td>
+                        <td>
+                            <button class="btn btn-danger btn-icon" data-toggle="modal" data-target="#course-kick"
+                                    th:attr="data-target='#course-kick'+${i.id}">
+                                <i data-feather="trash-2"></i>
+                            </button>
+                            <div class="modal fade" tabindex="-1" role="dialog" th:id="course-kick+${i.id}">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Are you sure to kick course from this group
+                                        </div>
+                                        <div class="modal-footer">
+                                            <form th:action="@{/kick-course-from-group}" method="post">
+                                                <input type="hidden" name="course_id" th:value="${i.id}">
                                                 <input type="hidden" name="group_id" th:value="${group.id}">
                                                 <button class="btn btn-danger">Delete</button>
                                                 <button type="button" class="btn btn-secondary"

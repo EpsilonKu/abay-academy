@@ -14,6 +14,7 @@
                 <a class="list-group-item list-group-item-action" th:each="lesson, lessonIter: ${chapterList}" th:text="${lesson.name}"
                 th:href="@{'/course/view/' + ${currentCourse.id} + '/' + ${chapterIter.index} + '/' + ${lessonIter.index}}"
                    th:classappend="${#request.getRequestURI() == '/course/view/' + currentCourse.id + '/' + chapterIter.index + '/' + lessonIter.index  ? 'active' : ''}">
+
                 </a>
             </div>
         </div>

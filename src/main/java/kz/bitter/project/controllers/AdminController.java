@@ -55,6 +55,7 @@ public class AdminController {
     public String editGroup(@PathVariable("id") Long id,
                              Model model) {
         model.addAttribute("userList", userService.getAllUsersByGroupId(id));
+        model.addAttribute("courseList", groupService.getGroupById(id).getCourses());
         model.addAttribute("group", groupService.getGroupById(id));
         return "admin/edit-group";
     }
@@ -126,6 +127,15 @@ public class AdminController {
         return "redirect:/edit/group/" + groupId;
     }
 
+    @PostMapping(value = "/save-course-to-group")
+    public String saveCourseToGroup(
+            @RequestParam(name = "course_id") Long courseId,
+            @RequestParam(name = "group_id") Long groupId) {
+        Courses courses = courseService.getCourseById(courseId);
+        Groups groups = groupService.getGroupById(groupId);
+        groupService.saveCourseToGroup(groups,courses);
+        return "redirect:/edit/group/" + groupId;
+    }
 
     @PostMapping(value = "/save-chapter")
     public String saveChapter(
@@ -207,6 +217,16 @@ public class AdminController {
         Groups groups = groupService.getGroupById(groupId);
         Users users = userService.getUserById(userId);
         userService.kickUserFromGroup(users,groups);
+        return "redirect:/edit/group/" + groupId;
+    }
+
+    @PostMapping(value = "/kick-course-from-group")
+    public String kickGroupFromGroup(
+            @RequestParam(name = "course_id") Long courseId,
+            @RequestParam(name = "group_id") Long groupId) {
+        Groups groups = groupService.getGroupById(groupId);
+        Courses courses = courseService.getCourseById(courseId);
+        groupService.kickCourseFromGroup(groups,courses);
         return "redirect:/edit/group/" + groupId;
     }
 
