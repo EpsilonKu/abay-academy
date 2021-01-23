@@ -2,12 +2,14 @@ package kz.bitter.project.controllers;
 
 import kz.bitter.project.entities.*;
 import kz.bitter.project.services.CourseService;
+import kz.bitter.project.services.EventService;
 import kz.bitter.project.services.GroupService;
 import kz.bitter.project.services.UserService;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,7 +22,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 @Controller
 public class AdminController {
@@ -32,6 +39,12 @@ public class AdminController {
 
     @Autowired
     private GroupService groupService;
+
+    @Autowired
+    private EventService eventService;
+
+    @DateTimeFormat (pattern = "yyyy-MM-dd")
+    private Date start;
 
     @GetMapping(value = "/user-panel")
     public String userPanel(Model model) {
@@ -49,6 +62,12 @@ public class AdminController {
     public String groupPanel(Model model) {
         model.addAttribute("allGroups", groupService.getAllGroups());
         return "admin/group-panel";
+    }
+
+    @GetMapping(value = "/event-panel")
+    public String eventPanel(Model model) {
+        model.addAttribute("allEvents", eventService.getAllEvents());
+        return "admin/event-panel";
     }
 
     @GetMapping(value = "/edit/group/{id}")
@@ -75,6 +94,14 @@ public class AdminController {
         model.addAttribute("lessonList", courseService.getLessonsByChapterId(id));
         model.addAttribute("chapter", courseService.getChapterById(id));
         return "admin/edit-chapter";
+    }
+
+    @GetMapping(value = "/edit/event/{id}")
+    public String editEvent(Model model,
+                             @PathVariable("id") Long id) {
+        Events event = eventService.getEventById(id);
+        model.addAttribute("currentEvent", event);
+        return "admin/edit-event";
     }
 
     @GetMapping(value = "/edit/lesson/{id}")
@@ -116,6 +143,29 @@ public class AdminController {
 
         groupService.saveGroups(group);
         return "redirect:/group-panel";
+    }
+
+
+    @PostMapping(value = "/save-event")
+    public String saveEvent(
+            @RequestParam(name = "event_id") Long id,
+            @RequestParam(name = "event_name") String name,
+            @RequestParam(name = "event_date")String sDate) {
+        SimpleDateFormat formatter = new SimpleDateFormat("mm-DD-yyyy", Locale.ENGLISH);
+        try {
+        Date date = formatter.parse(sDate);
+        Events event = new Events();
+            if (id != -1) {
+                event.setId(id);
+            }
+            event.setName(name);
+            event.setDate(date);
+            eventService.saveEvent(event);
+            return "redirect:/event-panel";
+        }catch (Exception e){
+            e.printStackTrace();
+            return "redirect:/event-panel?error=true";
+        }
     }
     @PostMapping(value = "/save-user-to-group")
     public String saveUserToGroup(
@@ -210,6 +260,19 @@ public class AdminController {
             return "redirect:/";
         }
     }
+
+    @PostMapping(value = "/remove-event")
+    public String removeEvent(
+            @RequestParam(name = "event_id") Long id) {
+        Events event = eventService.getEventById(id);
+        if (event != null) {
+            eventService.removeEvent(event);
+            return "redirect:/event-panel?removeSuccess=" + id;
+        } else {
+            return "redirect:/";
+        }
+    }
+
     @PostMapping(value = "/kick-user-from-group")
     public String kickUserFromGroup(
             @RequestParam(name = "user_id") Long userId,

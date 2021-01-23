@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -13,11 +14,17 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Events extends BaseEntity {
+    @Column (name = "name")
+    private String name;
+
+    @Column (name = "start_date")
+    private Date date;
 
     @ManyToOne (fetch = FetchType.LAZY)
     Courses courses;
 
     @ManyToMany (fetch = FetchType.LAZY)
     List<Groups> groups;
+
 
 }
