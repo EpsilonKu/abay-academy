@@ -301,7 +301,7 @@ public class AdminController {
         Groups groups = groupService.getGroupById(groupId);
         Events events = eventService.getEventById(eventId);
         eventService.kickGroupFromEvent(groups,events);
-        return "redirect:/edit/event" + eventId;
+        return "redirect:/edit/event/" + eventId;
     }
 
     @PostMapping(value = "/kick-course-from-group")
