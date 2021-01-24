@@ -100,7 +100,8 @@ public class AdminController {
     public String editEvent(Model model,
                              @PathVariable("id") Long id) {
         Events event = eventService.getEventById(id);
-        model.addAttribute("currentEvent", event);
+        model.addAttribute("event", event);
+        model.addAttribute("groupList", event.getGroups());
         return "admin/edit-event";
     }
 
@@ -175,6 +176,16 @@ public class AdminController {
             Groups groups = groupService.getGroupById(groupId);
             userService.saveUserToGroup(user,groups);
         return "redirect:/edit/group/" + groupId;
+    }
+
+    @PostMapping(value = "/save-group-to-event")
+    public String saveGroupToEvent(
+            @RequestParam(name = "event_id") Long eventId,
+            @RequestParam(name = "group_id") Long groupId) {
+        Events event = eventService.getEventById(eventId);
+        Groups group = groupService.getGroupById(groupId);
+        eventService.saveGroupToEvent(group,event);
+        return "redirect:/edit/event/" + eventId;
     }
 
     @PostMapping(value = "/save-course-to-group")
@@ -281,6 +292,16 @@ public class AdminController {
         Users users = userService.getUserById(userId);
         userService.kickUserFromGroup(users,groups);
         return "redirect:/edit/group/" + groupId;
+    }
+
+    @PostMapping(value = "/kick-group-from-event")
+    public String kickGroupFromEvent(
+            @RequestParam(name = "event_id") Long eventId,
+            @RequestParam(name = "group_id") Long groupId) {
+        Groups groups = groupService.getGroupById(groupId);
+        Events events = eventService.getEventById(eventId);
+        eventService.kickGroupFromEvent(groups,events);
+        return "redirect:/edit/event" + eventId;
     }
 
     @PostMapping(value = "/kick-course-from-group")
