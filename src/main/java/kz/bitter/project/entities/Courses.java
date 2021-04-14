@@ -20,6 +20,10 @@ public class Courses extends BaseEntity{
     @Column (name = "description")
     private String description;
 
+	@Column (name = "price")
+	private int price;
 
+	@Column (name = "reputation")
+	private int reputation;
 
 }

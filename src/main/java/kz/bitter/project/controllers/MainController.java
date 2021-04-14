@@ -31,6 +31,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Controller
 public class MainController {
     @Autowired
@@ -61,6 +62,13 @@ public class MainController {
         model.addAttribute("currentUser", getUserData());
         return "user/profile";
     }
+
+	@GetMapping(value = "/explore")
+    public String coursePanel(Model model) {
+        model.addAttribute("allCourses", courseService.getAllCourses());
+        return "user/explore";
+    }
+
 
     @GetMapping (value = "/course/{id}")
     public String courseView (@PathVariable ("id") Long id,

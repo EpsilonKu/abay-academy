@@ -70,6 +70,8 @@ public class AdminController {
         return "admin/event-panel";
     }
 
+
+
     @GetMapping(value = "/edit/group/{id}")
     public String editGroup(@PathVariable("id") Long id,
                              Model model) {
@@ -104,7 +106,6 @@ public class AdminController {
         model.addAttribute("groupList", event.getGroups());
         return "admin/edit-event";
     }
-
     @GetMapping(value = "/edit/lesson/{id}")
     public String editLesson(Model model,
                              @PathVariable("id") Long id) {
@@ -118,13 +119,15 @@ public class AdminController {
     public String saveCourse(
             @RequestParam(name = "course_id") Long id,
             @RequestParam(name = "course_name") String name,
-            @RequestParam(name = "course_description") String description) {
+            @RequestParam(name = "course_description") String description,
+			@RequestParam(name = "course_reputation") int reputation) {
         Courses courses = new Courses();
         if (id != -1) {
             courses.setId(id);
         }
         courses.setName(name);
         courses.setDescription(description);
+		courses.setReputation(reputation);
 
         courseService.saveCourse(courses);
         return "redirect:/course-panel";

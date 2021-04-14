@@ -36,4 +36,6 @@ public class BaseEntity {
     public void preRemove (){
         this.removeDate = new Date();
     }
+	
+
 }
