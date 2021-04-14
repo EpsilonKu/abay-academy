@@ -3,13 +3,18 @@
       layout:decorator="layout/profileStruct">
 	<div layout:fragment="content_view">
 		<div class="row">
-			<div class="col-12 col-md-6 grid-margin">
-				<div class="card" th:each = " i : ${allCourses}">
+			<div class="col-12 col-md-6 col-xl-4 grid-margin" th:each = " i : ${allCourses}">
+				<div class="card">
 					<div class="card-header" th:text = "${i.name}">
 						
 					</div>
 					<div class="card-body" th:text = "${i.description}" >
 						
+					</div>
+					<div class="card-footer">
+						<a class="btn btn-info" th:href="@{'/course/' + ${i.id}}">
+							Details
+						</a>
 					</div>
 				</div>
 			</div>

@@ -120,7 +120,8 @@ public class AdminController {
             @RequestParam(name = "course_id") Long id,
             @RequestParam(name = "course_name") String name,
             @RequestParam(name = "course_description") String description,
-			@RequestParam(name = "course_reputation") int reputation) {
+			@RequestParam(name = "course_reputation") int reputation,
+            @RequestParam(name = "course_price") int price) {
         Courses courses = new Courses();
         if (id != -1) {
             courses.setId(id);
@@ -128,6 +129,7 @@ public class AdminController {
         courses.setName(name);
         courses.setDescription(description);
 		courses.setReputation(reputation);
+		courses.setPrice(price);
 
         courseService.saveCourse(courses);
         return "redirect:/course-panel";
