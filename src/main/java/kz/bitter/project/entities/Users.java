@@ -34,8 +34,8 @@ public class Users extends BaseEntity{
     @Enumerated (EnumType.ORDINAL)
     private Roles role;
 
-    @Column (name  = "avatar")
-    private String avatar;
+    @Column (name  = "pfp")
+    private String pfp;
 
     @ManyToMany (fetch = FetchType.LAZY)
     private List <Groups> groups;

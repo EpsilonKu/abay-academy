@@ -10,10 +10,12 @@ import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,6 +48,7 @@ public class AdminController {
     @DateTimeFormat (pattern = "yyyy-MM-dd")
     private Date start;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(value = "/user-panel")
     public String userPanel(Model model) {
         model.addAttribute("allUsers", userService.getAllUsers());
@@ -371,7 +374,7 @@ public class AdminController {
         newUser.setPassword(password);
         newUser.setName(firstName + lastName);
         newUser.setId(null);
-        newUser.setAvatar(null);
+        newUser.setPfp(null);
 
         if (password.equals(rePassword)) {
             newUser = userService.registerUser(newUser);
