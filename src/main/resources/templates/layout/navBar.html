@@ -13,7 +13,11 @@
                         <i data-feather="search"></i>
                     </div>
                 </div>
-                <input type="text" class="form-control" id="navbarForm" placeholder="Search here...">
+<!--                <input type="text" class="form-control" id="navbarForm" placeholder="Search here...">-->
+                <form class="form-inline my-2 my-lg-0" th:action="@{'/search'}" method="get">
+                    <input class="form-control mr-sm-2" type="search" th:placeholder="#{menu.search}" aria-label="Search" name="key" th:value="${key!=null?key:''}">
+                    <button class="btn btn-outline-light my-2 my-sm-0" type="submit" th:text = "#{menu.search}"></button>
+                </form>
             </div>
         </form>
         <ul class="navbar-nav">
@@ -25,7 +29,7 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="languageDropdown">
                     <a class="dropdown-item py-2 ml-1" th:href="@{'?lng=en'}">English</a>
-                    <a class="dropdown-item py-2 ml-1" th:href="@{'?lng=ru'}">Russian</a>
+                    <a class="dropdown-item py-2 ml-1" th:href= "@{'?lng=ru'}">Russian</a>
                 </div>
             </li>
         </ul>

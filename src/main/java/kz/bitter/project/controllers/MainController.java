@@ -3,7 +3,6 @@ package kz.bitter.project.controllers;
 import kz.bitter.project.entities.Chapters;
 import kz.bitter.project.entities.Lessons;
 import kz.bitter.project.entities.Users;
-import kz.bitter.project.enums.Gender;
 import kz.bitter.project.services.CourseService;
 import kz.bitter.project.services.UserService;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -63,7 +62,30 @@ public class MainController {
         return "user/profile";
     }
 
-	@GetMapping(value = "/explore")
+    @GetMapping (value = "/setting")
+    @PreAuthorize("isAuthenticated()")
+    public String setting (Model model){
+        model.addAttribute("currentUser", getUserData());
+        return "user/settings";
+    }
+
+    @PostMapping(value = "/save-user-settings")
+    public String saveUserAccount(@RequestParam(name = "user_id") String id,
+                                  @RequestParam(name = "user_email") String userEmail,
+                                  @RequestParam(name = "user_nickname") String userNickname,
+                                  @RequestParam(name = "user_full_name") String userFullName) {
+        Users user = userService.getUserById(Long.parseLong(id));
+        if (user != null) {
+            user.setEmail(userEmail);
+            user.setUsername(userNickname);
+            user.setName(userFullName);
+            return userService.saveUser(user) != null ? "redirect:/setting" : "redirect:/profile";
+        }
+        return "redirect:/";
+    }
+
+
+    @GetMapping(value = "/explore")
     public String coursePanel(Model model) {
         model.addAttribute("allCourses", courseService.getAllCourses());
         return "user/explore";
@@ -135,7 +157,7 @@ public class MainController {
         newUser.setPassword(newPassword);
         newUser.setName(firstName + lastName);
         newUser.setId(null);
-        newUser.setAvatar(null);
+        newUser.setPfp(null);
 
         if (newPassword.equals(reNewPassword)){
             userService.registerUser(newUser);
@@ -154,27 +176,27 @@ public class MainController {
         return null;
     }
 
-    @PostMapping (value = "/uploadAva")
-    public String uploadAva (@RequestParam (name = "avatar")MultipartFile file){
+    @PostMapping (value = "/uploadPfp")
+    public String uploadAva (@RequestParam (name = "photo")MultipartFile file){
 
         Users user = getUserData();
 
         if (file.getContentType() != null && user != null &&(file.getContentType().equals("image/jpeg") || file.getContentType().equals("image/png"))) {
             try {
 
-                String filename= DigestUtils.sha1Hex("avatar_" + user.getId());
+                String filename= DigestUtils.sha1Hex("pfp_" + user.getId());
 
                 byte[] bytes = file.getBytes();
                 Path path = Paths.get(uploadPath + filename + ".jpg");
                 Files.write(path, bytes);
 
-                user.setAvatar(filename);
+                user.setPfp(filename);
                 userService.saveUser(user);
 
-                return "redirect:/profile";
+                return "redirect:/setting";
             } catch (Exception e) {
                 e.printStackTrace();
-
+                    System.out.println("Error on uploadPfP");
             }
         }
         return "redirect:/profile";
@@ -194,4 +216,6 @@ public class MainController {
         }
         return IOUtils.toByteArray(in);
     }
+
+
 }
