@@ -1,0 +1,55 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/mainStruct">
+<div layout:fragment="content_view">
+  <div class="row">
+    <div class="col-lg-6 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Change Your Data</h4>
+<!--          <p class="card-description">Read the <a href="https://jqueryvalidation.org/" target="_blank"> Official jQuery Validation Documentation </a>for a full list of instructions and other options.</p>-->
+          <form class="cmxform" method="post" th:action="@{saveUserData}">
+            <fieldset>
+              <div class="form-group">
+                <label for="name">Full Name</label>
+                <input id="name" class="form-control" name="user_full_name" type="text" th:value="${currentUser.getName()}" >
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input id="email" class="form-control" name="user_email" type="email" th:value="${currentUser.getEmail()}">
+              </div>
+              <div class="form-group">
+                <label for="username">Username</label>
+                <input id="username" class="form-control" name="user_nickname" type="text" th:value="${currentUser.getUsername()}">
+              </div>
+              <input type="hidden" th:value="${currentUser.getId()}" name="user_id">
+              <input class="btn btn-primary" type="submit" value="Submit">
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Photo</h4>
+          <p class="card-description">Upload new profile photo</p>
+          <form th:action="@{'/uploadPfp'}"   method="post" enctype="multipart/form-data">
+            <div class="form-group">
+              <figure>
+                <img th:src="@{'viewPhoto/' + ${currentUser.getPfp()}}" class="img-fluid" alt="Place Holder">
+              </figure>
+            </div>
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" id="customFile" name="photo">
+              <label class="custom-file-label" for="customFile">Choose file</label>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-success">Add</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+</div>
+</html>
