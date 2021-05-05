@@ -52,69 +52,86 @@ public class AdminController {
     @GetMapping(value = "/user-panel")
     public String userPanel(Model model) {
         model.addAttribute("allUsers", userService.getAllUsers());
+        model.addAttribute("currentUser",getUserData());
         return "admin/user-panel";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(value = "/course-panel")
     public String coursePanel(Model model) {
         model.addAttribute("allCourses", courseService.getAllCourses());
+        model.addAttribute("currentUser",getUserData());
+
         return "admin/course-panel";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(value = "/group-panel")
     public String groupPanel(Model model) {
         model.addAttribute("allGroups", groupService.getAllGroups());
+        model.addAttribute("currentUser",getUserData());
         return "admin/group-panel";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(value = "/event-panel")
     public String eventPanel(Model model) {
         model.addAttribute("allEvents", eventService.getAllEvents());
+        model.addAttribute("currentUser",getUserData());
         return "admin/event-panel";
     }
 
 
-
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(value = "/edit/group/{id}")
     public String editGroup(@PathVariable("id") Long id,
                              Model model) {
         model.addAttribute("userList", userService.getAllUsersByGroupId(id));
         model.addAttribute("courseList", groupService.getGroupById(id).getCourses());
         model.addAttribute("group", groupService.getGroupById(id));
+        model.addAttribute("currentUser",getUserData());
         return "admin/edit-group";
     }
 
-
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(value = "/edit/course/{id}")
     public String editCourse(@PathVariable("id") Long id,
                              Model model) {
         model.addAttribute("chapterList", courseService.getChapterByCourseId(id));
         model.addAttribute("course", courseService.getCourseById(id));
+        model.addAttribute("currentUser",getUserData());
         return "admin/edit-course";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(value = "/edit/chapter/{id}")
     public String editChapter(@PathVariable("id") Long id,
                               Model model) {
         model.addAttribute("lessonList", courseService.getLessonsByChapterId(id));
         model.addAttribute("chapter", courseService.getChapterById(id));
+        model.addAttribute("currentUser",getUserData());
         return "admin/edit-chapter";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(value = "/edit/event/{id}")
     public String editEvent(Model model,
                              @PathVariable("id") Long id) {
         Events event = eventService.getEventById(id);
         model.addAttribute("event", event);
         model.addAttribute("groupList", event.getGroups());
+        model.addAttribute("currentUser",getUserData());
         return "admin/edit-event";
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(value = "/edit/lesson/{id}")
     public String editLesson(Model model,
                              @PathVariable("id") Long id) {
 
         Lessons lesson = courseService.getLessonbyId(id);
         model.addAttribute("currentLesson", lesson);
+        model.addAttribute("currentUser",getUserData());
         return "admin/edit-lesson";
     }
 
