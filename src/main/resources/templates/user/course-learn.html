@@ -1,6 +1,6 @@
 <html lang="en" xmlns:th = "http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorator="layout/editStruct"
+      layout:decorator="layout/mainStruct"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <div class="col-12 stretch-card grid-margin" layout:fragment="content_view">
 
@@ -9,8 +9,8 @@
             <div th:utext="${currentLessonList[currentChapter][currentLesson].content}">Content</div>
         </div>
         <div class="col-4">
-            <div class="list-group" th:each="chapterList, chapterIter: ${currentLessonList}">
-                <a class="list-group-item list-group-item-dark" th:text="${currentChapterList [chapterIter.index].name}"></a>
+            <div class="list-group m-4 " th:each="chapterList, chapterIter: ${currentLessonList}">
+                <a class="list-group-item list-group-item-info-muted" th:text="${currentChapterList [chapterIter.index].name}"></a>
                 <a class="list-group-item list-group-item-action" th:each="lesson, lessonIter: ${chapterList}" th:text="${lesson.name}"
                 th:href="@{'/course/view/' + ${currentCourse.id} + '/' + ${chapterIter.index} + '/' + ${lessonIter.index}}"
                    th:classappend="${#request.getRequestURI() == '/course/view/' + currentCourse.id + '/' + chapterIter.index + '/' + lessonIter.index  ? 'active' : ''}">
