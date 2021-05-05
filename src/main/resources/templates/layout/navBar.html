@@ -6,7 +6,7 @@
         <i data-feather="menu"></i>
     </a>
     <div class="navbar-content">
-        <form class="search-form">
+        <form class="search-form" th:action="@{'/search'}" method="get">
             <div class="input-group">
                 <div class="input-group-prepend">
                     <div class="input-group-text">
@@ -14,10 +14,11 @@
                     </div>
                 </div>
 <!--                <input type="text" class="form-control" id="navbarForm" placeholder="Search here...">-->
-                <form class="form-inline my-2 my-lg-0" th:action="@{'/search'}" method="get">
-                    <input class="form-control mr-sm-2" type="search" th:placeholder="#{menu.search}" aria-label="Search" name="key" th:value="${key!=null?key:''}">
-                    <button class="btn btn-outline-light my-2 my-sm-0" type="submit" th:text = "#{menu.search}"></button>
-                </form>
+                <input type="text" class="form-control" th:value="${key!=null?key:''}" id="navbarForm" placeholder="Search here...">
+<!--                <form class="form-inline my-2 my-lg-0" th:action="@{'/search'}" method="get">-->
+<!--                    <input class="form-control mr-sm-2" type="search" th:placeholder="#{menu.search}" aria-label="Search" name="key" th:value="${key!=null?key:''}">-->
+<!--                    <button class="btn btn-outline-light my-2 my-sm-0" type="submit" th:text = "#{menu.search}"></button>-->
+<!--                </form>-->
             </div>
         </form>
         <ul class="navbar-nav">
@@ -32,7 +33,48 @@
                     <a class="dropdown-item py-2 ml-1" th:href= "@{'?lng=ru'}">Russian</a>
                 </div>
             </li>
+            <li class="nav-item dropdown nav-profile">
+                <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img class="square-rounded-img" th:src= "@{'viewPhoto/' + ${currentUser.getPfp()}}" alt="profile">
+                </a>
+                <div class="dropdown-menu" aria-labelledby="profileDropdown">
+                    <div class="dropdown-header d-flex flex-column align-items-center">
+                        <div class="figure mb-3">
+                            <img class="square-rounded-img" th:src= "@{'viewPhoto/' + ${currentUser.getPfp()}}" alt="">
+                        </div>
+                        <div class="info text-center">
+                            <p class="name font-weight-bold mb-0" th:text="${currentUser.getName()}"></p>
+                            <p class="email text-muted mb-3" th:text="${currentUser.getEmail()}">amiahburton@gmail.com</p>
+                        </div>
+                    </div>
+                    <div class="dropdown-body">
+                        <ul class="profile-nav p-0 pt-3">
+                            <li class="nav-item">
+                                <a th:href="@{'profile'}" class="nav-link">
+                                    <i data-feather="user"></i>
+                                    <span>Profile</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a th:href="@{'setting'}" class="nav-link">
+                                    <i data-feather="edit"></i>
+                                    <span>Edit Profile</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <form th:action="@{/authOut}" method="post">
+                                    <button class="btn nav-link" type="submit">
+                                        <i data-feather="log-out"></i>
+                                        <span>Log Out</span>
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
         </ul>
+
     </div>
 <!--        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">-->
 <!--            <span class="navbar-toggler-icon"></span>-->
