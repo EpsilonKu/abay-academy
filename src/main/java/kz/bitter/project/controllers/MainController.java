@@ -5,6 +5,7 @@ import kz.bitter.project.entities.Lessons;
 import kz.bitter.project.entities.Users;
 import kz.bitter.project.services.CourseService;
 import kz.bitter.project.services.UserService;
+import kz.bitter.project.utils.ImageUtils;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpSession;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -49,6 +53,7 @@ public class MainController {
     private String defaultAvaPath;
 
     @GetMapping (value = "/")
+    @PreAuthorize("isAnonymous()")
     public String index (Model model){
         model.addAttribute("gender","");
         model.addAttribute("currentUser", getUserData());
@@ -86,8 +91,10 @@ public class MainController {
 
 
     @GetMapping(value = "/explore")
-    public String coursePanel(Model model) {
+    @PreAuthorize("isAuthenticated()")
+    public String exploreCourse(Model model) {
         model.addAttribute("allCourses", courseService.getAllCourses());
+        model.addAttribute("currentUser",getUserData());
         return "user/explore";
     }
 
@@ -117,6 +124,7 @@ public class MainController {
             lessonsList.add(lessons);
         }
         model.addAttribute("currentLessonList", lessonsList);
+        model.addAttribute("currentUser" , getUserData());
         return "user/course-learn";
     }
 
@@ -137,6 +145,12 @@ public class MainController {
             return "signUp";
         }
         return "redirect:/";
+    }
+
+    @GetMapping (value = "/navBar")
+    public String signUp (HttpSession session){
+        session.setAttribute("currentUser",getUserData());
+        return "layout/navBar";
     }
 
     @PostMapping (value = "/signUp")
@@ -184,9 +198,11 @@ public class MainController {
         if (file.getContentType() != null && user != null &&(file.getContentType().equals("image/jpeg") || file.getContentType().equals("image/png"))) {
             try {
 
-                String filename= DigestUtils.sha1Hex("pfp_" + user.getId());
+                String filename= "pfp_" + DigestUtils.sha1Hex("pfp_" + user.getId());
 
+//                byte[] bytes = ImageUtils.cropImageSquare(file.getBytes());
                 byte[] bytes = file.getBytes();
+
                 Path path = Paths.get(uploadPath + filename + ".jpg");
                 Files.write(path, bytes);
 
