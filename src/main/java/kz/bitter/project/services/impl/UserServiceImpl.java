@@ -1,27 +1,31 @@
 package kz.bitter.project.services.impl;
 
 import kz.bitter.project.entities.Groups;
+import kz.bitter.project.entities.Roles;
 import kz.bitter.project.entities.Users;
-import kz.bitter.project.enums.Roles;
 import kz.bitter.project.repositories.UserRepository;
 import kz.bitter.project.services.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service
 @EnableWebSecurity
-public class UserServiceImpl implements UserService {
+@Slf4j
+public class UserServiceImpl implements UserService, UserDetailsService {
     @Autowired
     private UserRepository userRepository;
-
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -40,22 +44,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        Users myUser = userRepository.findByEmailOrUsername(s,s);
-        if (myUser != null) {
-            ArrayList <Roles> allRoles = new ArrayList<>();
-            allRoles.add(myUser.getRole());
-            return new User(myUser.getEmail(), myUser.getPassword(),allRoles );
-        }else {
-            throw new UsernameNotFoundException("User not found");
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Users user = userRepository.findByEmailOrUsername(email,email);
+        if (user == null) {
+            log.error("Username not found in database");
+            throw new UsernameNotFoundException("Username not found in database");
+        } else {
+            log.info("Username found in database");
         }
+        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        user.getRoles().forEach(role -> {
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
+        });
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
+                authorities);
     }
+
 
     @Override
     public Users registerUser(Users newUser) {
         Users checkUser = userRepository.findByEmailOrUsername(newUser.getEmail(), newUser.getUsername());
         if (checkUser == null){
-            newUser.setRole(Roles.USER);
+//            newUser.setRole(Roles.USER);
             newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
             return userRepository.save(newUser);
         }
@@ -97,4 +107,5 @@ public class UserServiceImpl implements UserService {
         }
         userRepository.save(users);
     }
+
 }

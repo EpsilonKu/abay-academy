@@ -15,7 +15,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form th:action="@{/save-group-to-event}" method="post">
+                            <form th:action="@{admin/save-group-to-event}" method="post">
                                 <input type="hidden" name="event_id" th:value="${event.id}">
                                 <div class="form-group">
                                     <label>User Id</label>

@@ -29,7 +29,7 @@
                             </button>
                         </div>
                         <div class="modal-body px-4 py-5">
-                            <form th:action="@{/save-group}" method="post">
+                            <form th:action="@{admin/save-group}" method="post">
                                 <input type="hidden" name="group_id" th:value="${-1}">
                                 <div class="form-group">
                                     <label>Group Name</label>
@@ -104,7 +104,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form th:action="@{/save-group}" method="post">
+                            <form th:action="@{admin/save-group}" method="post">
                                 <input type="hidden" name="group_id" th:value="${i.id}">
                                 <div class="form-group">
                                     <label>Group Name</label>

@@ -58,7 +58,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form th:action="@{/save-event}" method="post">
+                            <form th:action="@{admin/save-event}" method="post">
                                 <input type="hidden" th:value="${-1}" name="event_id">
 
                                 <div class="form-group">
@@ -102,7 +102,7 @@
                         <td th:text="${i.name}"></td>
                         <td th:text="${i.date}"></td>
                         <td>
-                            <a class="btn btn-primary" th:href="@{'/edit/event/' + ${i.id}}">details</a>
+                            <a class="btn btn-primary" th:href="@{'admin/edit/event/' + ${i.id}}">details</a>
                         </td>
                         <td>
                             <a class="btn btn-info" data-toggle="modal" data-target="#modal-edit"
@@ -118,7 +118,7 @@
                                         </div>
                                         <div class="modal-body">
                                             <div class="px-4 py-5">
-                                                <form th:action="@{/save-event}" method="post">
+                                                <form th:action="@{admin/save-event}" method="post">
                                                     <input type="hidden" name="event_id" th:value="${i.id}">
                                                     <div class="form-group">
                                                         <label>Event Name</label>

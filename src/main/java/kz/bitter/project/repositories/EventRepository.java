@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 @Transactional
 public interface EventRepository extends JpaRepository<Events, Long> {
-    List<Events> findAll ();
+//    List<Events> findAll ();
 }

@@ -29,7 +29,7 @@
                             </button>
                         </div>
                         <div class="modal-body px-4 py-5">
-                            <form th:action="@{/save-course}" method="post">
+                            <form th:action="@{admin/save-course}" method="post">
                                 <input type="hidden" name="course_id" th:value="${-1}">
                                 <div class="form-group">
                                     <label>Course Name</label>
@@ -112,7 +112,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form th:action="@{/save-course}" method="post">
+                            <form th:action="@{admin/save-course}" method="post">
                                 <input type="hidden" name="course_id" th:value="${i.id}">
                                 <div class="form-group">
                                     <label>Course Name</label>

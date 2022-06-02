@@ -3,6 +3,7 @@ package kz.bitter.project.services;
 import kz.bitter.project.entities.Chapters;
 import kz.bitter.project.entities.Courses;
 import kz.bitter.project.entities.Lessons;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -22,4 +23,6 @@ public interface CourseService {
 
     List<Chapters> getChapterByCourseId (Long id);
     List<Lessons> getLessonsByChapterId (Long id);
+
+    Page<Courses> getCoursesByPage (int page);
 }

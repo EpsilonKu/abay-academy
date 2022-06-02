@@ -10,5 +10,4 @@ import java.util.List;
 @Repository
 @Transactional
 public interface CourseRepository extends JpaRepository <Courses, Long> {
-    List<Courses> findAll ();
 }

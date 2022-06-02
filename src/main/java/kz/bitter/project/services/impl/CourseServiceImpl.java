@@ -8,6 +8,10 @@ import kz.bitter.project.repositories.CourseRepository;
 import kz.bitter.project.repositories.LessonRepository;
 import kz.bitter.project.services.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.stereotype.Service;
 
@@ -80,4 +84,17 @@ public class CourseServiceImpl implements CourseService {
         return lessonRepository.findByChapterId(id);
     }
 
+    @Override
+    public Page<Courses> getCoursesByPage(int page) {
+        Pageable sortedByName =
+                PageRequest.of(page, 10, Sort.by("name"));
+        Page<Courses> result = courseRepository.findAll(sortedByName);
+
+        return result;
+    }
 }
+
+/*
+Pagination
+Acces Security Global
+ */

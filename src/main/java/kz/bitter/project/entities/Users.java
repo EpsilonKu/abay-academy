@@ -1,14 +1,12 @@
 package kz.bitter.project.entities;
 
-import kz.bitter.project.enums.Gender;
-import kz.bitter.project.enums.Roles;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -30,10 +28,6 @@ public class Users extends BaseEntity{
     @Column (name = "fullname")
     private String name;
 
-    @Column (name = "role")
-    @Enumerated (EnumType.ORDINAL)
-    private Roles role;
-
     @Column (name  = "pfp")
     private String pfp;
 
@@ -42,4 +36,7 @@ public class Users extends BaseEntity{
 
     @ManyToMany (fetch = FetchType.LAZY)
     private List<Courses> courses;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Collection<Roles> roles = new ArrayList<>();
 }

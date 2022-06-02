@@ -1,4 +1,4 @@
-# abayacademy
+# Ulyqbekacademy
  Learning platform.
  Based on Java + Spring + Thymeleaf
 

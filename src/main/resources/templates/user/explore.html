@@ -19,5 +19,10 @@
 				</div>
 			</div>
 		</div>
+
+		<a th:if="${currentPage != 0}" th:href="'/courses/' + ${currentPage - 1}">Previous Page</a>
+
+		<a th:href="'/courses/' + ${currentPage + 1}">Next Page</a>
+
 	</div>
 </html>

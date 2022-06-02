@@ -34,5 +34,4 @@ public class Lessons extends BaseEntity {
     @ManyToOne (fetch = FetchType.LAZY )
     private Chapters chapter;
 
-
 }

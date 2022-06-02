@@ -5,12 +5,12 @@ import kz.bitter.project.entities.Lessons;
 import kz.bitter.project.entities.Users;
 import kz.bitter.project.services.CourseService;
 import kz.bitter.project.services.UserService;
-import kz.bitter.project.utils.ImageUtils;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -55,6 +55,7 @@ public class MainController {
     @GetMapping (value = "/")
     @PreAuthorize("isAnonymous()")
     public String index (Model model){
+
         model.addAttribute("gender","");
         model.addAttribute("currentUser", getUserData());
         return "index";
@@ -93,12 +94,18 @@ public class MainController {
     @GetMapping(value = "/explore")
     @PreAuthorize("isAuthenticated()")
     public String exploreCourse(Model model) {
-        model.addAttribute("allCourses", courseService.getAllCourses());
-        model.addAttribute("currentUser",getUserData());
-        return "user/explore";
+
+        return "redirect:/courses/0";
     }
 
-
+    @GetMapping(value = "/courses/{page}")
+    @PreAuthorize("isAuthenticated()")
+    public String exploreCourse(Model model, @PathVariable("page")int page) {
+        model.addAttribute("allCourses", courseService.getCoursesByPage(page));
+        model.addAttribute("currentUser",getUserData());
+        model.addAttribute("currentPage",page);
+        return "user/explore";
+    }
     @GetMapping (value = "/course/{id}")
     public String courseView (@PathVariable ("id") Long id,
                               Model model){

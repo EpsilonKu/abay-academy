@@ -8,16 +8,19 @@
     <div class="navbar-content">
         <form class="search-form" th:action="@{'/search'}" method="get">
             <div class="input-group">
+<!--                <form class="form-inline my-2 my-lg-0" th:action="@{'/search'}" method="get">-->
                 <div class="input-group-prepend">
-                    <div class="input-group-text">
+                    <button class="input-group-text" type="submit">
                         <i data-feather="search"></i>
-                    </div>
+                    </button>
                 </div>
+
 <!--                <input type="text" class="form-control" id="navbarForm" placeholder="Search here...">-->
                 <input type="text" class="form-control" th:value="${key!=null?key:''}" id="navbarForm" placeholder="Search here...">
 <!--                <form class="form-inline my-2 my-lg-0" th:action="@{'/search'}" method="get">-->
 <!--                    <input class="form-control mr-sm-2" type="search" th:placeholder="#{menu.search}" aria-label="Search" name="key" th:value="${key!=null?key:''}">-->
-<!--                    <button class="btn btn-outline-light my-2 my-sm-0" type="submit" th:text = "#{menu.search}"></button>-->
+                    <button class="btn btn-outline-light my-2 my-sm-0" type="submit" th:text = "#{menu.search}"></button>
+<!--                </form>-->
 <!--                </form>-->
             </div>
         </form>
@@ -76,32 +79,4 @@
         </ul>
 
     </div>
-<!--        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">-->
-<!--            <span class="navbar-toggler-icon"></span>-->
-<!--        </button>-->
-<!--        <div class="collapse navbar-collapse" id="navbarSupportedContent">-->
-<!--            <ul class="navbar-nav mr-auto">-->
-<!--                <li class="nav-item dropdown">-->
-<!--                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text = "#{currentLang}">-->
-<!--                    </a>-->
-<!--                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">-->
-<!--                        <a class="dropdown-item" th:href="@{'?lng=ru'}">РУС</a>-->
-<!--                        <a class="dropdown-item" th:href="@{'?lng=en'}">ENG</a>-->
-<!--                    </div>-->
-<!--                </li>-->
-<!--                <li class="nav-item" sec:authorize="isAnonymous()">-->
-<!--                    <a class="nav-link" th:href="@{/login}" th:text = "#{button.signIn}"></a>-->
-<!--                </li>-->
-<!--                <li class="nav-item" sec:authorize="isAuthenticated()">-->
-<!--                    <a class="nav-link" href="JavaScript:void(0)" onclick="document.getElementById('signOutFormId').submit()" th:text = "#{button.signOut}"></a>-->
-<!--                </li>-->
-<!--                <form th:action="@{/authOut}" method="post" id = "signOutFormId" sec:authorize="isAuthenticated()">-->
-<!--                </form>-->
-<!--            </ul>-->
-<!--            <form class="form-inline my-2 my-lg-0" th:action="@{'/search'}" method="get">-->
-<!--                <input class="form-control mr-sm-2" type="search" th:placeholder="#{menu.search}" aria-label="Search" name="key" th:value="${key!=null?key:''}">-->
-<!--                <button class="btn btn-outline-light my-2 my-sm-0" type="submit" th:text = "#{menu.search}"></button>-->
-<!--            </form>-->
-<!--        </div>-->
-<!--    </div>-->
 </nav>

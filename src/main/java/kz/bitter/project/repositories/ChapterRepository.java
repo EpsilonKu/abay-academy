@@ -13,4 +13,5 @@ import java.util.List;
 public interface ChapterRepository extends JpaRepository <Chapters,Long> {
     List <Chapters> findByCourseId (Long id);
     void deleteAllByCourseId (Long id);
+
 }
