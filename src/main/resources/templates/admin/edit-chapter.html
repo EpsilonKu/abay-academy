@@ -25,7 +25,7 @@
                         <td th:text="${i.name}"></td>
                         <td th:text="${i.orderPlace}"></td>
                         <td>
-                            <a class="btn btn-primary" th:href="@{'admin/edit/lesson/' + ${i.id}}">Details</a>
+                            <a class="btn btn-primary" th:href="@{'/admin/edit/lesson/' + ${i.id}}">Details</a>
                         </td>
                         <td>
                             <button class="btn btn-danger btn-icon" data-toggle="modal" data-target="#lesson-remove"
